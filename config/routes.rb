@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   #dashboard
-  get'/dashboard' => 'users#index'
+  get'/dashboard' => 'dashboard#index'
   #router-user
   resources :users
   #homepage
