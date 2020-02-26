@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
   def index
-    @imgur = Imgur.first
+    @image = Image.first
   end
 end
