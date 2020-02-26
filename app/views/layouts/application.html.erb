@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%= render 'shared/header' %>
     <title>CrawlerWebsite</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,9 +10,8 @@
   </head>
 
   <body>
+    <%= render 'shared/header' %>
     <%= yield %>
-    <main class="container" style="min-height: 500px;">
-    </main>
     <%= render 'shared/footer' %>
   </body>
 </html>
