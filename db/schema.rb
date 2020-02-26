@@ -16,11 +16,13 @@ ActiveRecord::Schema.define(version: 2020_02_25_080957) do
   enable_extension "plpgsql"
 
   create_table "imgurs", force: :cascade do |t|
+    t.integer "instagram_id"
     t.string "type"
     t.string "file"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["type", "instagram_id"], name: "index_imgurs_on_type_and_instagram_id"
   end
 
   create_table "instagrams", force: :cascade do |t|

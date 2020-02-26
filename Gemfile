@@ -34,6 +34,8 @@ gem "webpacker"
 gem 'bootstrap', '~> 4.4.1'
 gem 'popper_js', '~> 1.16.0'
 gem 'font-awesome-rails'
+gem 'seed-fu', '~> 2.3'
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 # Use jquery
 gem 'jquery-rails'
 
