@@ -29,6 +29,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+# Use Bootstrap 4.4.1
+gem "webpacker"
+gem 'bootstrap', '~> 4.4.1'
+gem 'popper_js', '~> 1.16.0'
+gem 'font-awesome-rails'
+# Use jquery
+gem 'jquery-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
