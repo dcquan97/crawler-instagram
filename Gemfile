@@ -11,7 +11,7 @@ gem 'pg'
 # gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
-gem 'devise'
+gem 'pry'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -28,12 +28,14 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 # Use Bootstrap 4.4.1
 gem "webpacker"
 gem 'bootstrap', '~> 4.4.1'
 gem 'popper_js', '~> 1.16.0'
 gem 'font-awesome-rails'
+gem 'seed-fu', '~> 2.3'
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 # Use jquery
 gem 'jquery-rails'
 

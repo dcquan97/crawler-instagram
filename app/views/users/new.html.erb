@@ -1,25 +1,25 @@
-<%= form_for :users, :class => 'container', :html => { :style => 'padding-top: 20px;' } do |f| %>
+<%= form_for :users, url: users_path, method: 'post', class: 'container', html: { style: 'padding-top: 20px;' } do |f| %>
   <h3>Create new account to use instagram</h3>
   <div class="form-group">
     <%= label :exampleInputUsername, "Username" %>
-    <%= f.text_field :username, :class => 'form-control', placeholder: 'Enter username'%>
+    <%= f.text_field :username, class: 'form-control', placeholder: 'Enter username'%>
   </div>
   <div class="form-group">
     <%= label :exampleInputUsername, "Email address" %>
-    <%= f.email_field :email, :class => 'form-control', placeholder: 'Enter email'%>
+    <%= f.email_field :email, class: 'form-control', placeholder: 'Enter email'%>
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
     <%= label :exampleInputUsername, "Password" %>
-    <%= f.password_field :password, :class => 'form-control', placeholder: 'Password' %>
+    <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
   </div>
   <div class="form-group">
     <%= label :exampleInputUsername, "Password Confirm" %>
-    <%= f.password_field :password_confirm, :class => 'form-control', placeholder: 'Password confirm' %>
+    <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Password confirm' %>
   </div>
   <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <%= label :exampleCheck1, "Check me out", :class => 'form-check-label' %>
+    <%= label :exampleCheck1, "Check me out", class: 'form-check-label' %>
   </div>
-  <%= f.button "Create Account", :class => "btn btn-primary" %>
+  <%= f.button "Create Account", class: "btn btn-primary" %>
 <% end %>

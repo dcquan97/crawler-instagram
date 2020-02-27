@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_25_080957) do
+ActiveRecord::Schema.define(version: 2020_02_27_041439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "imgurs", force: :cascade do |t|
+    t.integer "instagram_id"
     t.string "type"
     t.string "file"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["type", "instagram_id"], name: "index_imgurs_on_type_and_instagram_id"
   end
 
   create_table "instagrams", force: :cascade do |t|
@@ -40,7 +42,6 @@ ActiveRecord::Schema.define(version: 2020_02_25_080957) do
     t.string "avatar"
     t.datetime "deleted_at"
     t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_02_25_080957) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

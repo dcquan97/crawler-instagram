@@ -1,0 +1,12 @@
+<main class="container" style="min-height: 500px;">
+  <div class="row">
+    <div class="col-8">
+      <div class="insta-post">
+        <div class="post-meta">
+          <%= current_user.username %>
+        </div>
+        <%= render partial: 'image', collection: @images %>
+      </div>
+    </div>
+  </div>
+</main>
