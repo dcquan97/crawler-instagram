@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   #dashboard
   get'/dashboard' => 'users#index'
-  get'/login' => 'sessions#index'
-  post'/login' => 'sessions#create'
-  get '/profile'=> 'sessions#edit'
-  delete '/logout' => 'sessions#destroy'
-  put '/profile' => 'session#update'
+
+controller :sessions do
+  get 'login'     => :new
+  post 'login'    => :create
+  delete 'logout' => :destroy
+  put 'profile'   => :update
+  get 'profile'   => :edit
+end
   #router-user
   resources :users
   #homepage

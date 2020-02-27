@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def index
+  def new
   end
 
   def create
@@ -24,7 +24,11 @@ class SessionsController < ApplicationController
   end
 
   def update
-    # if
-    User.update()
+    if params["/profile"][:password] == current_user.encrypted_password
+      current_user.update_attributes!(username: params["/profile"][:username], email: params["/profile"][:email])
+      redirect_to dashboard_path
+    else
+      redirect_to profile_path
+    end
   end
 end
