@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   #dashboard
   get'/dashboard' => 'users#index'
-  get'/sign_in' => 'users#sign_in'
+  get'/login' => 'sessions#index'
+  post'/login' => 'sessions#create'
+  get '/profile'=> 'sessions#edit'
   #router-user
   resources :users
   #homepage
