@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: params[:email], encrypted_password: params[:password])
+    @user = User.find_by(email: params[:email], password: params[:password])
     if !@user.nil?
       session[:user_id] = @user.id
       redirect_to dashboard_path
