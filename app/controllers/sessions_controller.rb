@@ -24,8 +24,8 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params["/profile"][:password] == current_user.encrypted_password
-      current_user.update_attributes!(username: params["/profile"][:username], email: params["/profile"][:email])
+    if params[:password] == current_user.encrypted_password
+      current_user.update_attributes!(username: params[:username], email: params[:email])
       redirect_to dashboard_path
     else
       redirect_to profile_path
