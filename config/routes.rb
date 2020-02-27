@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post'/login' => 'sessions#create'
   get '/profile'=> 'sessions#edit'
   delete '/logout' => 'sessions#destroy'
+  put '/profile' => 'session#update'
   #router-user
   resources :users
   #homepage
