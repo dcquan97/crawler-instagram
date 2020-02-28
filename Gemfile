@@ -38,6 +38,8 @@ gem 'seed-fu', '~> 2.3'
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 # Use jquery
 gem 'jquery-rails'
+# Use figaro to setup enviroment variables
+gem 'figaro'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

@@ -8,9 +8,7 @@ Rails.application.routes.draw do
   #router-user
   resources :users
   # Password Reset and Password forgot
-  get 'password/new', to: 'password#new'
-  post 'password/forgot', to: 'password#forgot'
-  post 'password/reset', to: 'password#reset'
+  resources :password
   #homepage
   root 'home#index'
 end
