@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:password] == current_user.password
+    if params[:password] == current_user.password_digest
       current_user.update_attributes!(username: params[:username], email: params[:email])
       redirect_to dashboard_path
     else
