@@ -5,8 +5,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: params[:email], encrypted_password: params[:password])
-    if !@user.nil?
+    @user = User.find_by(email: params[:email], password_digest: params[:password])
+    if @user.present?
       session[:user_id] = @user.id
       redirect_to dashboard_path
     else
@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:password] == current_user.encrypted_password
+    if params[:password] == current_user.password
       current_user.update_attributes!(username: params[:username], email: params[:email])
       redirect_to dashboard_path
     else
