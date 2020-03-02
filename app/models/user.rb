@@ -5,19 +5,18 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :email, presence: true
-  validates :password, presence: true
-  validates :password, confirmation: { case_sensitive: true }
   validates_presence_of :password_digest, on: :create, allow_blank: true
+  validates :password, confirmation: { case_sensitive: true }
   has_secure_password
+  # has_secure_token
 
   before_create { generate_token(:auth_token)}
-  before_create { generate_token(:reset_password_token)}
 
   def send_password_reset
   	generate_token(:reset_password_token)
   	self.reset_password_sent_at = Time.zone.now
-  	save
-  	UserMailer.password_reset(self).deliver_later
+  	save!
+  	UserMailer.password_reset(self).deliver
   end
 
   def generate_token(column)

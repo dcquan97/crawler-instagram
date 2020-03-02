@@ -1,0 +1,3 @@
+# config/sidekiq.yml---
+:queues:
+  - default
