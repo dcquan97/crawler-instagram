@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authorize
+
   def index
-    if !current_user.nil?
       @images = current_user.images
-    end
   end
 end
