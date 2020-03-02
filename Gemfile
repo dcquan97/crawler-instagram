@@ -13,6 +13,7 @@ gem 'pg'
 gem 'puma', '~> 3.11'
 gem 'paranoia', '~> 2.2'
 gem 'pry'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

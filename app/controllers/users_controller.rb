@@ -10,12 +10,9 @@ class UsersController < ApplicationController
       current_user.destroy
       session.clear
       redirect_to root_path
-      SendEmailJob.set(wait: 20.seconds).perform_later(current_user)
+      SendEmailJob.set(wait: 2.seconds).perform_later(current_user)
     else
       redirect_to profile_path
-      # render json: {
-      #   error: "Wrong password."
-      # }, status: :not_found
     end
   end
 end
