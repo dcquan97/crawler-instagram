@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.datetime :deleted_at
       # t.datetime :deleted_at
       t.string :email,              null: false, default: ''
-      t.string :encrypted_password, null: false, default: ''
+      t.string :password_digest, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token

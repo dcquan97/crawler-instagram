@@ -5,8 +5,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: params[:email], encrypted_password: params[:password])
-    if !@user.nil?
+    @user = User.find_by(email: params[:email], password_digest: params[:password])
+    if @user.present?
       session[:user_id] = @user.id
       redirect_to dashboard_path
     else
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def edit
-    @user = User.find(current_user.id)
+    @user = User.find_by(id: current_user.id)
   end
 
   def destroy

@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_02_25_080957) do
     t.string "avatar"
     t.datetime "deleted_at"
     t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "password_digest", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
