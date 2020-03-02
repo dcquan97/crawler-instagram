@@ -6,8 +6,16 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    current_user.destroy
-    session.clear
-    redirect_to root_path
+    if current_user.password_digest == params[params[:password]]
+      current_user.destroy
+      session.clear
+      redirect_to root_path
+      SendEmailJob.set(wait: 20.seconds).perform_later(current_user)
+    else
+      redirect_to profile_path
+      # render json: {
+      #   error: "Wrong password."
+      # }, status: :not_found
+    end
   end
 end

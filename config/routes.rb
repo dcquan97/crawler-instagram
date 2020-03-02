@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   #dashboard
+  get'/delete_account' => 'sessions#delete_account'
   get'/dashboard' => 'users#index'
-
 controller :sessions do
   get 'login'     => :new
   post 'login'    => :create
