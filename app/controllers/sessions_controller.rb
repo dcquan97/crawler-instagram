@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def edit
-    @user = User.find(current_user.id)
+    @user = User.find_by(id: current_user.id)
   end
 
   def destroy
