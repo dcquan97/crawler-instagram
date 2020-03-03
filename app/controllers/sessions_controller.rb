@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: params[:email], password_digest: params[:password])
+    @user = User.find_by(email: params["/login"][:email], password_digest: params["/login"][:password])
     if @user.present?
       session[:user_id] = @user.id
       redirect_to dashboard_path
