@@ -1,9 +1,8 @@
 class ForgotPasswordJob < ApplicationJob
-  queue_as :default
+  queue_as :mail
 
   def perform(user)
-  	queue_as :default
   	@user = user
-  	UserMailer.delay_for(1.minutes).password_reset(@user).deliver_later(wait: 1.minutes)
+  	UserMailer.password_reset(@user).deliver_later
   end
 end

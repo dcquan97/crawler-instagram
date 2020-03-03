@@ -4,6 +4,7 @@ class PasswordController < ApplicationController
 		user_password_reset = user
 		user.send_password_reset if user
 		redirect_to root_path, notice: "Email sent with password reset instructions"
+		ForgotPasswordJob.set(wait: 4.seconds).perform_later(user)
 	end
 	def edit
 		@user = User.find_by_reset_password_token(params[:id])
