@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :users
   # Password Reset and Password forgot
   resources :password
+  # Sidekiq Routes
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   #homepage
   root 'home#index'
 end

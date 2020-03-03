@@ -1,0 +1,25 @@
+<%= form_for @user, url: password_path(params[:id]), class: 'form-horizontal', method: :patch do |f| %>
+  <fieldset>
+    <!-- Password input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="piCurrPass">Password</label>
+      <div class="col-md-4">
+        <%= f.password_field :password, class: 'form-control input-md' %>
+      </div>
+    </div>
+    <!-- Password confirm input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="piNewPass">Password confirmation</label>
+      <div class="col-md-4">
+        <%= f.password_field :password_confirmation, class: 'form-control input-md' %>
+      </div>
+    </div>
+    <!-- Button (Double) -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="bCancel"></label>
+      <div class="col-md-8">
+        <%= f.submit 'Updated password', class: 'btn btn-success' %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
