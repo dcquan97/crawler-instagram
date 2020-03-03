@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: params[:email], password: params[:password])
     if !@user.nil?
-      session[:user_id] = @user.id
+      cookies[:user_id] = @user.id
       redirect_to dashboard_path
     else
       redirect_to login_path
@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.clear
+    cookies.delete :user_id
     redirect_to root_path
   end
 end
