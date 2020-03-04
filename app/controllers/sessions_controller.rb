@@ -1,18 +1,22 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :authorize, only: [:index]
 
   def new
   end
 
   def create
-    @user = User.find_by(email: params[:email], password_digest: params[:password])
-    if @user.present?
-      if params[:remember_me]
-        cookies.permanent[:auth_token] = @user.auth_token
+    @user = User.find_by(email: params[:email])
+    if @user && @user.authenticate(params[:password])
+      if params[:remember_me] == 'true'
+        cookies[:auth_token] = {
+          value: @user.auth_token,
+          expires: 1.minutes.from_now.utc
+        }
       else
-        cookies[:auth_token] = @user.auth_token
+        session[:user_id] = @user.id
       end
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Success login!'
     else
       redirect_to login_path
     end
@@ -23,7 +27,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    cookies.delete :auth_token
+    cookies.delete(:auth_token)
     redirect_to root_path
   end
 

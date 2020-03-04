@@ -3,11 +3,13 @@ class User < ApplicationRecord
   has_many :instagrams
   has_many :images, through: :instagrams
   has_many :videos, through: :instagrans
+
   validates :username, presence: true
   validates :email, presence: true
   validates_presence_of :password_digest, on: :create, allow_blank: true
   validates :password, confirmation: { case_sensitive: true }
   has_secure_password
+
   before_create { generate_token(:auth_token)}
 
   def send_password_reset
