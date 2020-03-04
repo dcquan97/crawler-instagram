@@ -1,8 +1,8 @@
 class User < ApplicationRecord
+  acts_as_paranoid
   has_many :instagrams
   has_many :images, through: :instagrams
   has_many :videos, through: :instagrans
-
   validates :username, presence: true
   validates :email, presence: true
   validates_presence_of :password_digest, on: :create, allow_blank: true
@@ -22,3 +22,4 @@ class User < ApplicationRecord
   	end while User.exists?(column => self[column])
   end
 end
+

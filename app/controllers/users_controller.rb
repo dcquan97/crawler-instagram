@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
+  before_action :authorize
+
   def index
-    if !current_user.nil?
-      @images = current_user.images
-    else
-      redirect_to root_path
-    end
+    @images = current_user.images
   end
   def new
   end

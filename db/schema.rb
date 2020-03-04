@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_03_03_022843) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_imgurs_on_deleted_at"
     t.index ["type", "instagram_id"], name: "index_imgurs_on_type_and_instagram_id"
   end
 
@@ -33,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_03_03_022843) do
     t.bigint "imgur_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_instagrams_on_deleted_at"
     t.index ["imgur_id"], name: "index_instagrams_on_imgur_id"
     t.index ["user_id"], name: "index_instagrams_on_user_id"
   end
@@ -54,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_03_03_022843) do
     t.string "password_digest"
     t.string "auth_token"
     t.string "remember_digest"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

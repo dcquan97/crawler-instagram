@@ -1,12 +1,12 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def index
+  def new
   end
 
   def create
-    @user = User.find_by(email: params[:email], password: params[:password])
-    if !@user.nil?
+    @user = User.find_by(email: params[:email], password_digest: params[:password])
+    if @user.present?
       if params[:remember_me]
         cookies.permanent[:auth_token] = @user.auth_token
       else
@@ -25,5 +25,14 @@ class SessionsController < ApplicationController
   def destroy
     cookies.delete :auth_token
     redirect_to root_path
+  end
+
+  def update
+    if params[:password] == current_user.password_digest
+      current_user.update_attributes!(username: params[:username], email: params[:email])
+      redirect_to dashboard_path
+    else
+      redirect_to profile_path
+    end
   end
 end
