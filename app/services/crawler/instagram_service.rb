@@ -1,11 +1,14 @@
+require "open-uri"
+
 module Crawler
   class ProfileInstagram
-    attr :content, :image, :video
+    attr :content, :like_count, :image, :video
 
-    def initialize(content:, image:, video:)
-      @content = content
-      @image = image
-      @video = video
+    def initialize(content:, like_count:, image:, video:)
+      @content    = content
+      @like_count = like_count
+      @image      = image
+      @video      = video
     end
   end
 
@@ -37,8 +40,12 @@ module Crawler
       # edges[1]["node"]["edge_media_to_caption"]["edges"][0]["node"]["text"]
       @data = []
       datas.each do |datum|
-        content = datum["node"]["edge_media_to_caption"]["edges"][0]["node"]["text"]
-        data << ProfileInstagram.new(content: content, image: nil, video: nil)
+        content    = datum["node"]["edge_media_to_caption"]["edges"][0]["node"]["text"]
+        like_count = datum["node"]["edge_media_preview_like"]["count"]
+        image      = datum["node"]["display_url"]
+        download   = open image
+        IO.copy_stream(download, "public/image/image#{content}#{like_count}.png")
+        data << ProfileInstagram.new(content: content, like_count: like_count, image: image, video: nil)
       end
       data
     end
