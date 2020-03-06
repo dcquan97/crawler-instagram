@@ -5,19 +5,19 @@ module Crawler
   class ProfileInstagram
     attr :key_url, :content, :like_count, :type
 
-    def initialize(key_url:, content:, like_count:, type:)
-      @key_url    = key_url
+    def initialize(image:, video:, content:, like_count:)
+      @image      = image
+      @video      = video
       @content    = content
       @like_count = like_count
-      @type       = type
     end
   end
 
   class Html
     attr_reader :html, :data
     def initialize(url)
-      @html = HTTParty.get(url)
-      @data = []
+      @html  = HTTParty.get(url)
+      @data  = []
     end
 
     def parsing
@@ -42,22 +42,23 @@ module Crawler
       shortcode_media = json["entry_data"]["PostPage"][0]["graphql"]["shortcode_media"]
       content         = shortcode_media["edge_media_to_caption"]["edges"][0]["node"]["text"]
       like_count      = shortcode_media["edge_media_preview_like"]["count"]
-      data << ProfileInstagram.new(key_url: url, content: content, like_count: like_count, type: "video")
+      data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count)
 
       meta_v.attribute_nodes.last.value
     end
 
-    def parsing_photo_page(html)
+    def shortcode_media(html)
+      doc             = Nokogiri::HTML(html)
+      js_data         = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
+      json            = JSON.parse(js_data.text[21..-2])
+      json["entry_data"]["PostPage"][0]["graphql"]["shortcode_media"]
+    end
 
+    def parsing_photo_page(html)
       doc             = Nokogiri::HTML(html)
       js_data         = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
       json            = JSON.parse(js_data.text[21..-2])
       shortcode_media = json["entry_data"]["PostPage"][0]["graphql"]["shortcode_media"]
-      content         = shortcode_media["edge_media_to_caption"]["edges"][0]["node"]["text"]
-      like_count      = shortcode_media["edge_media_preview_like"]["count"]
-      image           = shortcode_media["display_url"]
-
-      data << ProfileInstagram.new(key_url: image, content: content, like_count: like_count, type: "image")
 
       if shortcode_media["edge_sidecar_to_children"]
         shortcode_media["edge_sidecar_to_children"]["edges"]
@@ -68,16 +69,6 @@ module Crawler
 
     private
 
-    def parse_post(posts, time)
-      @lil_data = []
-      posts.each.with_index(1) do |post, index|
-        url = post["node"]["is_video"] ?
-              post["node"]["video_url"] :
-              post["node"]["display_url"]
-        @lil_data << url
-      end
-    end
-
     def loop_edges(edges)
       edges.each do |edge|
         node     = edge["node"]
@@ -87,17 +78,31 @@ module Crawler
         if node["is_video"]
           url = parsing_video_page(HTTParty.get(page_url))
         else
-          shortcode_media = parsing_photo_page(HTTParty.get(page_url))
-
-          if shortcode_media.is_a? Array
-            parse_post(shortcode_media, time)
-            if data.
+          shortcode_media_url = parsing_photo_page(HTTParty.get(page_url))
+          if shortcode_media_url.is_a? Array
+            @video = []
+            @img   = []
+            shortcode_media_url.each.with_index(1) do |post|
+              if post["node"]["is_video"] == true
+                @video << post["node"]["video_url"]
+              else
+                  @img << post["node"]["display_url"]
+              end
+            end
+            media      = shortcode_media(HTTParty.get(page_url))
+            content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
+            like_count = media["edge_media_preview_like"]["count"]
+            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count)
           else
-            url = shortcode_media
+            shortcode_media_url
+            media      = shortcode_media(HTTParty.get(page_url))
+            content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
+            like_count = media["edge_media_preview_like"]["count"]
+
+            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count)
           end
         end
       end
-      data
     end
   end
 end
