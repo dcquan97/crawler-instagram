@@ -1,5 +1,6 @@
 class PasswordController < ApplicationController
 	def create
+		binding.pry
 		user = User.find_by_email(params[:email])
 		user_password_reset = user
 		user.send_password_reset if user
@@ -11,7 +12,7 @@ class PasswordController < ApplicationController
 	end
 	def update
 		@user = User.find_by_reset_password_token!(params[:id])
-		if @user.reset_password_sent_at < 2.hours.ago
+		if @user.reset_password_sent_at < 2.minutes.ago
 			redirect_to new_password_path, alert: "Password reset has expired"
 		elsif @user.update(set_password)
 			redirect_to root_path, notice: "Password has been reset!"

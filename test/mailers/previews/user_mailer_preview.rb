@@ -5,4 +5,7 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.with(user: User.first).password_reset
     # UserMailer.password_reset(user).deliver
   end
+  def confirmation_user
+    UserMailer.with(user: User.first).confirmation_user
+  end
 end

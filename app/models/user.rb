@@ -8,14 +8,28 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates_presence_of :password_digest, on: :create, allow_blank: true
   validates :password, confirmation: { case_sensitive: true }
-  has_secure_password
 
+  scope :expires_active, ->{ where(confirmation_sent_at: Time.now + 5.minutes) }
   before_create { generate_token(:auth_token)}
+  has_secure_password
+  has_secure_token :confirmation_token
 
   def send_password_reset
   	generate_token(:reset_password_token)
   	self.reset_password_sent_at = Time.zone.now
   	save!
+  end
+
+  def send_email_activation
+    generate_token(:confirmation_token)
+    self.confirmation_sent_at = Time.zone.now
+    save!
+  end
+
+  def send_email_activation_again
+    self.regenerate_confirmation_token
+    self.confirmation_sent_at = Time.zone.now
+    save!
   end
 
   def generate_token(column)

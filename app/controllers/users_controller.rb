@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authorize, only: [:index]
 
   def index
     @images = current_user.images
@@ -8,10 +9,25 @@ class UsersController < ApplicationController
   def create
   	@user = User.new(set_user)
   	if @user.save
-  		redirect_to root_path, notice: "Account create successly!"
+      @user.send_email_activation
+      UserMailer.confirmation_user(@user).deliver_later
+  		redirect_to root_path, notice: "Please check your email to active account!"
   	else
   		render :new
   	end
+  end
+  def edit
+    @user = User.find_by(confirmation_token: params[:id])
+    @user.update_attributes(confirmed_at: Time.zone.now)
+    confirm_duration = Time.zone.at(@user.confirmed_at - @user.confirmation_sent_at).strftime('%M').to_i.minutes
+    if confirm_duration < 1.minutes
+      @user.update_attributes(confirmation: true)
+      redirect_to dashboard_path
+    else
+      @user.send_email_activation_again
+      UserMailer.confirmation_user(@user).deliver_later
+      redirect_to root_path, notice: 'Account verification has expired, we have sent a new message to your email. Please check your email inbox!'
+    end
   end
   # Private method
   private
