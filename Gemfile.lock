@@ -87,9 +87,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     crass (1.0.6)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.5)
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
@@ -97,10 +100,23 @@ GEM
     erubi (1.9.0)
     execjs (2.7.0)
     ffi (1.12.2)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    http (4.3.0)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      http-parser (~> 1.2.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    http-form_data (2.2.0)
+    http-parser (1.2.1)
+      ffi-compiler (>= 1.0, < 2.0)
     httparty (0.18.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
@@ -236,6 +252,9 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.6)
     web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -262,9 +281,11 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  colorize
   dotenv-rails
   faker!
   font-awesome-rails
+  http
   httparty
   jbuilder (~> 2.5)
   jquery-rails
