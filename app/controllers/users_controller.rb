@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize
+  before_action :authorize, only: [:index, :destroy]
 
   def index
     @images = current_user.images
@@ -15,4 +15,8 @@ class UsersController < ApplicationController
       redirect_to profile_path
     end
   end
+
+  def new
+  end
+
 end
