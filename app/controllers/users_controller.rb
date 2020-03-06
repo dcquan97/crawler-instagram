@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize, only: [:index, :destroy]
+  before_action :authorize, only: [:destroy]
 
   def index
     @images = current_user.images

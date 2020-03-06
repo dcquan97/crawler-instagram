@@ -16,13 +16,14 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
   enable_extension "plpgsql"
 
   create_table "imgurs", force: :cascade do |t|
-    t.integer "instagram_id"
     t.string "type"
     t.string "file"
     t.datetime "deleted_at"
+    t.bigint "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_imgurs_on_deleted_at"
+    t.index ["instagram_id"], name: "index_imgurs_on_instagram_id"
     t.index ["type", "instagram_id"], name: "index_imgurs_on_type_and_instagram_id"
   end
 
@@ -31,11 +32,9 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
     t.integer "like_counter"
     t.datetime "deleted_at"
     t.bigint "user_id", null: false
-    t.bigint "imgur_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_instagrams_on_deleted_at"
-    t.index ["imgur_id"], name: "index_instagrams_on_imgur_id"
     t.index ["user_id"], name: "index_instagrams_on_user_id"
   end
 
@@ -59,6 +58,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "instagrams", "imgurs"
+  add_foreign_key "imgurs", "instagrams"
   add_foreign_key "instagrams", "users"
 end

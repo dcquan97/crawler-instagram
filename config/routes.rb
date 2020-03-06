@@ -10,6 +10,7 @@ controller :sessions do
   delete 'logout' => :destroy
   put 'profile'   => :update
   get 'profile'   => :edit
+  post 'crawler'  => :crawler
 end
   #router-user
   resources :users

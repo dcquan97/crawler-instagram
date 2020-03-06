@@ -3,7 +3,7 @@ require 'open-uri'
 module Crawler
 
   class ProfileInstagram
-    attr :key_url, :content, :like_count, :type
+    attr :image, :content, :like_count, :video
 
     def initialize(image:, video:, content:, like_count:)
       @image      = image

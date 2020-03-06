@@ -1,10 +1,10 @@
 class CreateImgur < ActiveRecord::Migration[5.2]
   def change
     create_table :imgurs do |t|
-      t.integer :instagram_id
       t.string :type
       t.string :file
       t.datetime :deleted_at
+      t.references :instagram, null: false, foreign_key: true
 
       t.timestamps null: false
     end
