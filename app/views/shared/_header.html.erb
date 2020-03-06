@@ -10,9 +10,7 @@
       </form>
     </div>
     <div class="user-section">
-      <% if current_user.nil? %>
-        <%= render "shared/sign_up" %>
-      <% else %>
+      <% if current_user %>
         <%= render 'shared/sign_in' %>
       <%end%>
     </div>
