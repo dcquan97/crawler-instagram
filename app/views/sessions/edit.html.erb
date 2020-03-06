@@ -38,8 +38,5 @@
     <div class="col-xl-7">
     </div>
     <div class="col-sm-5">
-      <%#= link_to "Remove Account",user_path(current_user.id) ,data: { confirm: 'Do you really want to delete it?', title: 'Confirm Deletion', commit: 'YES', cancel: 'NO' }, method: :delete, class: 'text-danger'%>
       <%= link_to "Remove Account", delete_account_path, class: 'text-danger js-account--close'%>
   </div>
-
-
