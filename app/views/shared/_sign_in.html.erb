@@ -1,5 +1,13 @@
-<%=link_to 'Clone Instagram', crawler_path, {onclick: 'this.blur();', method: :post, class: "btn btn-info"}%>
+<% if current_user.status == false%>
+  <button class="btn btn-info" type="button" disabled>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Loading...
+  </button>
+<%else%>
+  <%=link_to 'Get Post', crawler_path, method: :post, class: "btn btn-info"%>
+<%end%>
 <%=link_to 'Dashboard', dashboard_path%>
 <%=link_to 'Profile', profile_path%>
 <%=link_to 'Log Out', logout_path, method: :delete %>
+
 

@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
 
   create_table "instagrams", force: :cascade do |t|
     t.string "content"
+    t.string "post_id"
     t.integer "like_counter"
     t.datetime "deleted_at"
     t.bigint "user_id", null: false
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
     t.string "username"
     t.string "avatar"
     t.datetime "deleted_at"
+    t.boolean "status"
     t.string "email", default: "", null: false
     t.string "password_digest", default: "", null: false
     t.string "reset_password_token"

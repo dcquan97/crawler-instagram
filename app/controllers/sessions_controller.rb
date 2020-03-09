@@ -34,30 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def crawler
-    current_user.images.all.destroy_all
-    current_user.videos.all.destroy_all
-    crawl = Crawler::Html.new("https://www.instagram.com/#{current_user.username}/")
-    crawl.parsing
-    crawl.data.each do |n|
-      like_counter      = n.like_count
-      title             = n.content
-      a_image           = n.image
-      a_video           = n.video
-      current_instagram = current_user.instagrams.create(like_counter: like_counter, content: title)
-      if a_image.class == String
-        Image.create(instagram_id: current_instagram.id,file: a_image)
-      elsif a_image != []
-        a_image.each do |image_url|
-          Image.create(instagram_id: current_instagram.id,file: image_url)
-        end
-      elsif a_video.class == String
-          Video.create(instagram_id: current_instagram.id,file: a_video)
-      else
-        a_video.each do |video_url|
-          Video.create(instagram_id: current_instagram.id,file: video_url)
-        end
-      end
-    end
+    current_user.update_attributes status: false
+    CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
     redirect_to dashboard_path
   end
 end

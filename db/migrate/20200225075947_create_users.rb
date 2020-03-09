@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :username
       t.string :avatar
       t.datetime :deleted_at
-      # t.datetime :deleted_at
+      t.boolean :status
       t.string :email,              null: false, default: ''
       t.string :password_digest, null: false, default: ''
 
