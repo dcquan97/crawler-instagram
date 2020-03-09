@@ -34,6 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def crawler
+    current_user.images.all.destroy_all
+    current_user.videos.all.destroy_all
     crawl = Crawler::Html.new("https://www.instagram.com/#{current_user.username}/")
     crawl.parsing
     crawl.data.each do |n|
@@ -56,5 +58,6 @@ class SessionsController < ApplicationController
         end
       end
     end
+    redirect_to dashboard_path
   end
 end
