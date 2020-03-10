@@ -1,11 +1,11 @@
-<%= form_with model: @session,method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
+<%= form_with model: @session, method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
   <div class="form-group row">
     <div class="col-sm-3 col-form-label">
-      <%= image_tag current_user.avatar%>
     </div>
     <div class="col-sm-9">
       <p class="username"><%=current_user.username %></p>
-      <a class="change-photo" href="">Change Profile Photo</a>
+      <%= f.file_field :avatar, id: "user_change_avatar", size: 270,
+        accept: ".jpg,.jpeg,.png", direct_upload: true %>
     </div>
   </div>
   <div class="form-group row">

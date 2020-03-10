@@ -19,7 +19,16 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
+# gem using carrierwave
+gem 'carrierwave', '~> 2.0'
+# Using gem fog-backblaze
+gem 'fog-backblaze'
+# Using paperclip
+gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+# Using paperclip-backblaze
+gem 'paperclip-backblaze', github: 'alextsui05/paperclip-backblaze'
+# Using minimagick
+gem "mini_magick"
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks

@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authorize, only: [:index]
 
   def new
   end
@@ -11,7 +10,7 @@ class SessionsController < ApplicationController
       if params[:remember_me] == 'true'
         cookies[:auth_token] = {
           value: @user.auth_token,
-          expires: 1.minutes.from_now.utc
+          expires: 1.hours.from_now.utc
         }
       else
         session[:user_id] = @user.id
@@ -32,11 +31,17 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:password] == current_user.password_digest
-      current_user.update_attributes!(username: params[:username], email: params[:email])
+    if current_user.authenticate(params[:password])
+      current_user.update(permit_update_params)
       redirect_to dashboard_path
     else
       redirect_to profile_path
     end
+  end
+
+  private
+
+  def permit_update_params
+    params.permit(:username, :email, :avatar)
   end
 end

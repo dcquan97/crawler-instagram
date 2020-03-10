@@ -11,6 +11,7 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  Paperclip.options[:command_path] = "/usr/local/bin/"
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -27,8 +28,9 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+  # Store uploaded files on the backblaze file system (see config/storage.yml for options)
+  config.active_storage.service = :backblaze
+
   # Using sidekiq to create queue when send mailer
   config.active_job.queue_adapter = :sidekiq
 
@@ -53,6 +55,7 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
@@ -75,4 +78,17 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.paperclip_defaults = {
+    storage: :backblaze,
+    fog_credentials: {
+      provider: 'backblaze',
+      account_id: '7eeeecf0aba4',
+      application_key: '0003c78b33077a5ac0ab1f59f5a6bc2e00f70527a9',
+      bucket: 'crawler-instagram',
+    },
+    fog_directory: 'crawler-instagram',
+    fog_host: 'https://f000.backblazeb2.com/file/crawler-instagram/'
+  }
+
 end

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     else
       @user.send_email_activation_again
       UserMailer.confirmation_user(@user).deliver_later
-      redirect_to root_path, notice: 'Account verification has expired, we have sent a new message to your email. Please check your email inbox!'
+      redirect_to root_path, notice: 'Please check your email to active account!'
     end
   end
   # Private method

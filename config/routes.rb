@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   end
   #router-user
   resources :users
+  #router-post
+  resources :post
   # Password Reset and Password forgot
   resources :password
   # Sidekiq Routes

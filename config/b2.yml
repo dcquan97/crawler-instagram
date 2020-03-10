@@ -1,0 +1,6 @@
+# Use rails backblaze to set the backblaze
+backblaze:
+  account_id: 7eeeecf0aba4
+  application_key: 000b82d7c8f40cc2a3b67a9f60b92a762621cd52e5
+  bucket_name: crawler-instagram
+  bucket_id: 87cefefefe6cafd07a0b0a14
