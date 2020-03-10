@@ -1,16 +1,15 @@
-require 'open-uri'
-
 module Crawler
 
   class ProfileInstagram
-    attr :image, :content, :like_count, :video , :post_id
+    attr :image, :content, :like_count, :video , :post_id, :time_post
 
-    def initialize(image:, video:, content:, like_count:, post_id:)
+    def initialize(image:, video:, content:, like_count:, post_id:, time_post:)
       @image      = image
       @video      = video
       @content    = content
       @like_count = like_count
       @post_id    = post_id
+      @time_post  = time_post
     end
   end
 
@@ -71,14 +70,14 @@ module Crawler
           content         = shortcode_media["edge_media_to_caption"]["edges"][0]["node"]["text"]
           like_count      = shortcode_media["edge_media_preview_like"]["count"]
           post_id         = node["id"]
-          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id)
+          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time)
         else
           shortcode_media_url = parsing_photo_page(HTTParty.get(page_url))
           if shortcode_media_url.is_a? Array
             @video = []
             @img   = []
             shortcode_media_url.each.with_index(1) do |post|
-              if post["node"]["is_video"] == true
+              if post["node"]["is_video"]
                 @video << post["node"]["video_url"]
               else
                   @img << post["node"]["display_url"]
@@ -88,14 +87,14 @@ module Crawler
             content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
             like_count = media["edge_media_preview_like"]["count"]
             post_id    = node["id"]
-            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id)
+            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time)
           else
             shortcode_media_url
             media      = shortcode_media(HTTParty.get(page_url))
             content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
             like_count = media["edge_media_preview_like"]["count"]
             post_id    = node["id"]
-            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id)
+            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time)
           end
         end
       end

@@ -8,4 +8,9 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: "Sample Email")
   end
+
+  def error_get_post_email(user)
+    @user = user
+    mail(to: @user.email, subject: "Sample Email")
+  end
 end
