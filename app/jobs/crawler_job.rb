@@ -9,11 +9,11 @@ class CrawlerJob < ActiveJob::Base
       like_counter     = n.like_count
       title            = n.content
       post_id          = n.post_id
-      find_or_new_post = current_user.instagrams.find_or_initialize_by(post_id: post_id)
-      if find_or_new_post.id.nil?
+      find_post = current_user.instagrams.find_by(post_id: post_id)
+      if find_post.nil?
         current_instagram = current_user.instagrams.create(post_id: post_id, content: title, like_counter: like_counter)
       else
-        current_instagram = find_or_new_post.update(content: title, like_counter: like_counter)
+        current_instagram = find_post.update_attributes(content: title, like_counter: like_counter)
       end
       instagram_id = current_instagram.id
       image        = n.image

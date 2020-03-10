@@ -62,7 +62,7 @@ module Crawler
         page_url = "https://www.instagram.com/p/#{node["shortcode"]}/"
 
         if node["is_video"]
-          doc             = Nokogiri::HTML(page_url)
+          doc             = Nokogiri::HTML(HTTParty.get(page_url))
           meta_v          = doc.at_xpath("//meta[@property='og:video']")
           url             = meta_v.attribute_nodes.last.value
           js_data         = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
