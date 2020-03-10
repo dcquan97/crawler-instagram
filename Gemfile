@@ -27,6 +27,8 @@ gem 'fog-backblaze'
 gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
 # Using paperclip-backblaze
 gem 'paperclip-backblaze', github: 'alextsui05/paperclip-backblaze'
+# Using Rmagick
+gem 'rmagick'
 # Using minimagick
 gem "mini_magick"
 # Use CoffeeScript for .coffee assets and views

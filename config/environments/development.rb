@@ -75,16 +75,23 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Config Paperclip
+  config.serve_static_assets = true
   config.paperclip_defaults = {
-    storage: :backblaze,
-    b2_credentials: {
+    url: "/system/:users/:topic_slug.:extension"
+  }
+  Paperclip.options[:command_path] = "/usr/local/bin/identify"
+
+  config.paperclip_defaults = {
+    storage: :fog,
+    fog_credentials: {
       provider: 'backblaze',
       account_id: '7eeeecf0aba4',
-      application_key: '0003c78b33077a5ac0ab1f59f5a6bc2e00f70527a9',
+      application_key: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
       bucket: 'crawler-instagram',
+      local_root: "#{Rails.root}/public"
     },
-    b2_directory: 'crawler-instagram',
-    b2_host: 'https://f000.backblazeb2.com/file/crawler-instagram/'
+    fog_directory: 'crawler-instagram',
+    fog_host: 'https://f000.backblazeb2.com/file/crawler-instagram'
   }
-
 end

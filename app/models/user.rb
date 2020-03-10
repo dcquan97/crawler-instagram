@@ -4,7 +4,10 @@ class User < ApplicationRecord
                     styles: {
                       thumb: "100x100#",
                       small: "150x150>",
-                      medium: "200x200" }
+                      medium: "200x200"
+                    }
+                    # processors: [:thumbnail, :compression_processor]
+  # attr_accessor :processors
   has_secure_password
   has_secure_token :confirmation_token
 
