@@ -20,14 +20,6 @@ class User < ApplicationRecord
 
   before_create { generate_token(:auth_token)}
 
-  # def fog_credentials
-  #   {
-  #     account_id: '7eeeecf0aba4',
-  #     application_key: '000b82d7c8f40cc2a3b67a9f60b92a762621cd52e5',
-  #     bucket_name: 'crawler-instagram',
-  #   }
-  # end
-
   def send_password_reset
   	generate_token(:reset_password_token)
   	self.reset_password_sent_at = Time.zone.now

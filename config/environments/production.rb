@@ -17,8 +17,6 @@ Rails.application.configure do
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
-  # Store uploaded files on the backblaze file system (see config/storage.yml for options)
-  config.active_storage.service = :backblaze
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -87,6 +85,18 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  config.paperclip_defaults = {
+    storage: :backblaze,
+    fog_credentials: {
+      provider: 'backblaze',
+      account_id: '7eeeecf0aba4',
+      application_key: '0003c78b33077a5ac0ab1f59f5a6bc2e00f70527a9',
+      bucket: 'crawler-instagram',
+    },
+    fog_directory: 'crawler-instagram',
+    fog_host: 'https://f000.backblazeb2.com/file/crawler-instagram/'
+  }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
