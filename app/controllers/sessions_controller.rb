@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :authorize, only: [:edit, :destroy, :update]
+  before_action :authorize, only: [:edit, :destroy, :update, :crawler]
 
   def new
   end
@@ -34,7 +33,7 @@ class SessionsController < ApplicationController
   end
 
   def crawler
-    current_user.update_attributes status: false
+    current_user.update status: false
     CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
     redirect_to dashboard_path
   end

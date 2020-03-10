@@ -34,7 +34,7 @@ class CrawlerJob < ActiveJob::Base
       end
 
     end
-    current_user.update_attributes status: true
+    current_user.update status: true
     DoneGetPostJob.set(wait: 2.seconds).perform_later(current_user)
   end
 end
