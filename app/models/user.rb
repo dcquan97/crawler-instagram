@@ -6,8 +6,6 @@ class User < ApplicationRecord
                       small: "150x150>",
                       medium: "200x200"
                     }
-                    # processors: [:thumbnail, :compression_processor]
-  # attr_accessor :processors
   has_secure_password
   has_secure_token :confirmation_token
 

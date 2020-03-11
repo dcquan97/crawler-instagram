@@ -6,12 +6,12 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-backblaze_dev:
-  service: Backblaze
-  bucket_name: crawler-instagram
-  bucket_id: 87cefefefe6cafd07a0b0a14
-  key_id: 7eeeecf0aba4
-  key_token: 00030ec35b90b187036671d7a3e6c14268f04f36ce
+# backblaze_dev:
+#   service: Backblaze
+#   bucket_name: crawler-instagram
+#   bucket_id: 87cefefefe6cafd07a0b0a14
+#   key_id: 00030ec35b90b187036671d7a3e6c14268f04f36ce- 000b82d7c8f40cc2a3b67a9f60b92a762621cd52e5
+#   key_token: 7eeeecf0aba4
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

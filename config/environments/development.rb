@@ -14,7 +14,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join('public', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
@@ -76,21 +76,18 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Config Paperclip
-  config.serve_static_assets = true
-  config.paperclip_defaults = {
-    url: "/system/:users/:topic_slug.:extension"
-  }
   Paperclip.options[:command_path] = "/usr/local/bin/identify"
-
+  config.serve_static_assets = true
   config.paperclip_defaults = {
     storage: :fog,
     fog_credentials: {
       provider: 'backblaze',
-      account_id: '7eeeecf0aba4',
-      application_key: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
-      bucket: 'crawler-instagram',
-      local_root: "#{Rails.root}/public"
+      b2_account_id: '7eeeecf0aba4',
+      b2_account_token: '00030ec35b90b187036671d7a3e6c14268f04f36ce'
     },
+    bucket: 'crawler-instagram',
+    url: "/system/users/batman.:extension",
+    local_root: "#{Rails.root}/public",
     fog_directory: 'crawler-instagram',
     fog_host: 'https://f000.backblazeb2.com/file/crawler-instagram'
   }
