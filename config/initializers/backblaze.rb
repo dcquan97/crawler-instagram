@@ -21,3 +21,5 @@ connection = Fog::Storage.new(
     }
   }
 )
+# Paperclip::Attachment.default_options[:url] = 'crawler-instagram.b2.backblaze.com'
+# Paperclip::Attachment.default_options[:path] = '/:class/:attachment/:id_partition/:style/:filename'

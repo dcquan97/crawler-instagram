@@ -32,8 +32,8 @@ class SessionsController < ApplicationController
 
   def update
     if current_user.authenticate(params[:password])
-      current_user.update(permit_update_params)
       binding.pry
+      current_user.update(permit_update_params)
       redirect_to dashboard_path
     else
       redirect_to profile_path
