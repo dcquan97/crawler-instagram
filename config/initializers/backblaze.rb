@@ -1,4 +1,6 @@
 require "fog/backblaze"
+require 'json'
+require 'net/http'
 
 connection = Fog::Storage.new(
   provider: 'backblaze',

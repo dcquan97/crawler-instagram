@@ -14,7 +14,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('public', 'caching-dev.txt').exist?
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
@@ -78,21 +78,16 @@ Rails.application.configure do
   # Config Paperclip
   Paperclip.options[:command_path] = "/usr/local/bin/identify"
   config.serve_static_assets = true
-  # config.paperclip_defaults = {
-  #   storage: :fog,
-  #   fog_credentials: {
-  #     provider: 'backblaze',
-  #     b2_account_id: '7eeeecf0aba4',
-  #     b2_account_token: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
-  #     b2_bucket_name: 'crawler-instagram',
-  #     b2_bucket_id: '87cefefefe6cafd07a0b0a14',
-  #   },
-  #   # bucket: 'crawler-instagram',
-  #   fog_public: true,
-  #   ignore_integrity_errors: false,
-  #   ignore_processing_errors: false,
-  #   ignore_download_errors: false,
-  #   fog_directory: 'crawler-instagram',
-  #   fog_host: 'https://f000.backblazeb2.com/b2api/v1/b2_get_upload_url'
-  # }
+  config.paperclip_defaults = {
+    storage: :fog,
+    fog_credentials: {
+      provider: 'backblaze',
+      b2_account_id: '7eeeecf0aba4',
+      b2_account_token: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
+      b2_bucket_name: 'crawler-instagram',
+      b2_bucket_id: '87cefefefe6cafd07a0b0a14',
+    },
+    fog_public: true,
+    fog_host: 'https://f000.backblazeb2.com'
+  }
 end
