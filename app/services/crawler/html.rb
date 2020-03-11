@@ -13,21 +13,57 @@ module Crawler
     end
   end
 
+  class ProfileUser
+    attr :avatar, :decription, :followers, :following, :website, :full_name
+
+    def initialize(avatar:, decription:, followers:, following:, website:, full_name:)
+      @avatar     = avatar
+      @decription = decription
+      @followers  = followers
+      @following  = following
+      @website    = website
+      @full_name  = full_name
+    end
+  end
+
   class Html
-    attr_reader :html, :data
+    attr_reader :html, :data , :data_user
     def initialize(url)
-      @html  = HTTParty.get(url)
-      @data  = []
+      @html      = HTTParty.get(url)
+      @data      = []
+      @data_user = []
     end
 
     def parsing
-      doc       = Nokogiri::HTML(html)
-      js_data   = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
-      json      = JSON.parse(js_data.text[21..-2])
-      profile   = json["entry_data"]["ProfilePage"][0]
-      page_info = profile["graphql"]["user"]["edge_owner_to_timeline_media"]['page_info']
-      user_id   = profile["logging_page_id"].delete("profilePage_")
-      edges     = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
+      doc        = Nokogiri::HTML(html)
+      js_data    = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
+      json       = JSON.parse(js_data.text[21..-2])
+      profile    = json["entry_data"]["ProfilePage"][0]
+      page_info  = profile["graphql"]["user"]["edge_owner_to_timeline_media"]['page_info']
+      user_id    = profile["logging_page_id"].delete("profilePage_")
+      edges      = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
+      check_decription = profile["graphql"]["user"]["biography"]
+      if check_decription.nil?
+        decription     = " "
+      else
+        decription     = check_decription
+      end
+        check_website  = profile["graphql"]["user"]["external_url"]
+      if check_website.nil?
+        website        = " "
+      else
+        website        = check_website
+      end
+      check_full_name  = profile["graphql"]["user"]["full_name"]
+      if check_full_name.nil?
+        full_name      = " "
+      else
+        full_name      = check_full_name
+      end
+      following  = profile["graphql"]["user"]["edge_follow"]["count"]
+      followers  = profile["graphql"]["user"]["edge_followed_by"]["count"]
+      avatar     = profile["graphql"]["user"]["profile_pic_url_hd"]
+      data_user << ProfileUser.new(avatar: avatar, website: website, full_name: full_name, followers: followers, following: following, decription: decription)
 
       loop_edges(edges)
     end

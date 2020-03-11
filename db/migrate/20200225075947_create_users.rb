@@ -1,13 +1,17 @@
 class CreateUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :users do |t|
-      t.string :username
-      t.string :avatar
+      t.string   :username
+      t.string   :avatar
       t.datetime :deleted_at
-      t.boolean :status
-      t.string :email,              null: false, default: ''
-      t.string :password_digest, null: false, default: ''
-
+      t.boolean  :status
+      t.string   :email,           null: false, default: ''
+      t.string   :password_digest, null: false, default: ''
+      t.string   :decription
+      t.integer  :followers
+      t.integer  :following
+      t.string   :website
+      t.string   :full_name
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at

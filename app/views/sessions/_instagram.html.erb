@@ -1,0 +1,7 @@
+<% instagram.images.each do |image|%>
+<%= link_to image_tag(image.file, width: "200px", class: "img-thumbnail"), post_path(image.instagram_id)%>
+<% end %>
+<% instagram.videos.each do |video|%>
+<%= link_to video_tag(video.file, width: "200px", class: "img-thumbnail"), post_path(video.instagram_id)%>
+<% end %>
+

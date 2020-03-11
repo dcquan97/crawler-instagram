@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authorize, only: [:destroy, :index]
 
   def index
-    @images = current_user.images
+    @instagrams = current_user.instagrams
   end
 
   def destroy

@@ -37,4 +37,9 @@ class SessionsController < ApplicationController
     CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
     redirect_to dashboard_path
   end
+
+  def index
+    @account    = current_user
+    @instagrams = current_user.instagrams
+  end
 end

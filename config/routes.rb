@@ -9,11 +9,14 @@ controller :sessions do
   post 'login'    => :create
   delete 'logout' => :destroy
   put 'profile'   => :update
-  get 'profile'   => :edit
+  get 'profile'   => :index
   post 'crawler'  => :crawler
+  get 'edit'      => :edit
 end
   #router-user
   resources :users
+  #router-post
+  resources :posts, only: [:show,:edit]
   #homepage
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,0 +1,26 @@
+.profile-pic {
+  border-radius: 50%
+}
+
+.profile-stats {
+  width: 120px;
+  float: left;
+}
+
+.profile-posts {
+  margin-top: 50px;
+}
+
+.img-thumbnail {
+  margin: 20px;
+}
+
+.btn-custom {
+  background: transparent;
+  border: 2px solid #ddd !important;
+  border-radius: 4px !important;
+}
+
+.btn-custom:hover {
+  background: #ddd !important;
+}

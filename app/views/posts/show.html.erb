@@ -1,0 +1,27 @@
+<% provide(:title, 'Edit Post') %>
+<main class="container" style="min-height: 500px;">
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-6">
+      <div class="insta-post">
+        <div class="post-meta">
+          <%= current_user.username %>
+        </div>
+        <%= render partial: 'image', collection: @images %>
+        <%= render partial: 'video', collection: @videos %>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="post-details">
+        <div class="post-actions">
+          <i class="fa fa-heart like fa-2x"></i>
+          <i class="fa fa-comment fa-2x post-comment"></i>
+        </div>
+        <p><strong><%= @instagram.like_counter%> likes</strong></p>
+        <%= simple_format @instagram.content%>
+        <p class="text-muted"><%= time_ago_in_words @instagram.created_at%> ago</p>
+      </div>
+    </div>
+  </div>
+</main>

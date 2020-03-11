@@ -1,0 +1,23 @@
+<% provide(:title, 'Profile') %>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <%= image_tag @account.avatar , width: "200px", class: "profile-pic"%>
+    </div>
+    <div class="col-8 text-left">
+      <h1><%= @account.username %></h1>
+      <%= link_to "Edit Profile", edit_path, class: "btn btn-custom"%>
+      <div class="profile-stats"><%= @account.instagrams.count %> posts</div>
+      <div class="profile-stats"><%= @account.followers %> followers</div>
+      <div class="profile-stats"><%= @account.following %> following</div>
+
+      <p><%= @account.full_name %></p>
+      <%= simple_format @account.decription %>
+
+      <p><%= link_to @account.website if @account.website.present? %></p>
+    </div>
+  </div>
+  <div class="row profile-posts">
+   <%= render partial: 'instagram', collection: @instagrams %>
+  </div>
+</div>
