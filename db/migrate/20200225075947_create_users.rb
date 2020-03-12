@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.integer  :followers
       t.integer  :following
       t.string   :website
-      t.string   :full_name
+      t.string   :full_name,null: false, default: ''
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at

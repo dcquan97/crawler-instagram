@@ -3,15 +3,14 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   #dashboard
   get'/delete_account' => 'sessions#delete_account'
-  get'/dashboard' => 'users#index'
+  get'/dashboard' => 'sessions#index'
 controller :sessions do
   get 'login'     => :new
   post 'login'    => :create
   delete 'logout' => :destroy
   put 'profile'   => :update
-  get 'profile'   => :index
+  get 'profile'   => :edit
   post 'crawler'  => :crawler
-  get 'edit'      => :edit
 end
   #router-user
   resources :users

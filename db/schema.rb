@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
     t.string "post_id"
     t.integer "like_counter"
     t.datetime "deleted_at"
+    t.datetime "time_post"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,7 +51,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
     t.integer "followers"
     t.integer "following"
     t.string "website"
-    t.string "full_name"
+    t.string "full_name", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

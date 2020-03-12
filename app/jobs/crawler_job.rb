@@ -11,15 +11,16 @@ class CrawlerJob < ActiveJob::Base
     else
       crawl.parsing
       crawl.data_user.each do |user|
-        current_user.update(decription: user.decription, website: user.website, full_name: user.full_name, following: user.following, followers: user.followers, avatar: user.  avatar)
+        current_user.update(decription: user.decription, website: user.website, full_name: user.full_name, following: user.following, followers: user.followers, avatar: user.avatar)
       end
       crawl.data.each do |n|
         like_counter     = n.like_count
         title            = n.content
         post_id          = n.post_id
+        time_post        = n.time_post
         select_post = current_user.instagrams.find_by(post_id: post_id)
         if select_post.nil?
-          current_instagram = current_user.instagrams.create(post_id: post_id, content: title, like_counter: like_counter)
+          current_instagram = current_user.instagrams.create(post_id: post_id, content: title, like_counter: like_counter, time_post: time_post)
         else
           select_post.update_attributes(content: title, like_counter: like_counter)
           next

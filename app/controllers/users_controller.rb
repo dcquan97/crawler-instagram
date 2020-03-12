@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authorize, only: [:destroy, :index]
+  before_action :authorize, only: [:destroy]
 
-  def index
-    @instagrams = current_user.instagrams
-  end
 
   def destroy
     if current_user.password_digest == params[params[:password]]
@@ -17,6 +14,9 @@ class UsersController < ApplicationController
   end
 
   def new
+    if current_user.present?
+      redirect_to dashboard_path
+    end
   end
 
 end

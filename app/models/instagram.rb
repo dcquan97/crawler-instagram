@@ -3,4 +3,8 @@ class Instagram < ApplicationRecord
   belongs_to :user
   has_many :images , class_name: 'Image'
   has_many :videos , class_name: 'Video'
+
+  scope :order_by_time_post, -> {
+    order(time_post: :desc)
+  }
 end

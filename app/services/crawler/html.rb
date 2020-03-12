@@ -42,29 +42,25 @@ module Crawler
       page_info  = profile["graphql"]["user"]["edge_owner_to_timeline_media"]['page_info']
       user_id    = profile["logging_page_id"].delete("profilePage_")
       edges      = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
-      check_decription = profile["graphql"]["user"]["biography"]
-      if check_decription.nil?
-        decription     = " "
-      else
-        decription     = check_decription
-      end
-        check_website  = profile["graphql"]["user"]["external_url"]
+      decription = profile["graphql"]["user"]["biography"]
+      check_website  = profile["graphql"]["user"]["external_url"]
       if check_website.nil?
-        website        = " "
+        website = ""
       else
-        website        = check_website
+        website = check_website
       end
+
       check_full_name  = profile["graphql"]["user"]["full_name"]
       if check_full_name.nil?
-        full_name      = " "
+        full_name = ""
       else
-        full_name      = check_full_name
+        full_name = check_full_name
       end
+
       following  = profile["graphql"]["user"]["edge_follow"]["count"]
       followers  = profile["graphql"]["user"]["edge_followed_by"]["count"]
       avatar     = profile["graphql"]["user"]["profile_pic_url_hd"]
       data_user << ProfileUser.new(avatar: avatar, website: website, full_name: full_name, followers: followers, following: following, decription: decription)
-
       loop_edges(edges)
     end
 
@@ -103,7 +99,12 @@ module Crawler
           js_data         = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
           json            = JSON.parse(js_data.text[21..-2])
           shortcode_media = json["entry_data"]["PostPage"][0]["graphql"]["shortcode_media"]
-          content         = shortcode_media["edge_media_to_caption"]["edges"][0]["node"]["text"]
+          check_content = shortcode_media.dig("edge_media_to_caption","edges")&.first
+            if check_content.nil?
+              content = ""
+            else
+              content       = check_content.dig("node","text")
+            end
           like_count      = shortcode_media["edge_media_preview_like"]["count"]
           post_id         = node["id"]
           data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time)
@@ -120,16 +121,26 @@ module Crawler
               end
             end
             media      = shortcode_media(HTTParty.get(page_url))
-            content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
+            check_content = media.dig("edge_media_to_caption","edges")&.first
+            if check_content.nil?
+              content = ""
+            else
+              content       = check_content.dig("node","text")
+            end
             like_count = media["edge_media_preview_like"]["count"]
             post_id    = node["id"]
             data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time)
           else
             shortcode_media_url
-            media      = shortcode_media(HTTParty.get(page_url))
-            content    = media["edge_media_to_caption"]["edges"][0]["node"]["text"]
-            like_count = media["edge_media_preview_like"]["count"]
-            post_id    = node["id"]
+            media         = shortcode_media(HTTParty.get(page_url))
+            check_content = media.dig("edge_media_to_caption","edges")&.first
+            if check_content.nil?
+              content = ""
+            else
+              content       = check_content.dig("node","text")
+            end
+            like_count    = media["edge_media_preview_like"]["count"]
+            post_id       = node["id"]
             data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time)
           end
         end

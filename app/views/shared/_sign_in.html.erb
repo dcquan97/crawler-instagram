@@ -1,10 +1,7 @@
 <% if current_user.status == false%>
-  <button class="btn btn-customm" type="button" disabled>
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Loading...
-  </button>
+  <i class="text-secondary">Loading...</i>
 <%else%>
-  <%=link_to 'Get Post', crawler_path, method: :post, class: "btn btn-custom"%>
+  <%=link_to 'Get Post', crawler_path, method: :post%>
 <%end%>
 <%=link_to 'Dashboard', dashboard_path%>
 <%=link_to 'Profile', profile_path%>
