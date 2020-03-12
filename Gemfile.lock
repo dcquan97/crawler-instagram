@@ -288,7 +288,7 @@ DEPENDENCIES
   bootstrap (~> 4.4.1)
   byebug
   capybara (>= 2.15)
-  carrierwave
+  carrierwave (~> 2.0)
   chromedriver-helper
   cloudinary
   coffee-rails (~> 4.2)

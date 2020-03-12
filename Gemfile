@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # Using gem "cloudinary"
 gem "cloudinary"
-gem 'carrierwave'
+gem 'carrierwave', '~> 2.0'
 gem 'dropzonejs-rails'
 
 # Using Rmagick
