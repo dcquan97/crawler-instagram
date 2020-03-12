@@ -86,22 +86,6 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # config.paperclip_defaults = {
-  #   storage: :backblaze,
-  #   b2_credentials: Rails.root.join('config/b2.yml')
-  # }
-  # config.paperclip_defaults = {
-  #   storage: :backblaze,
-  #   fog_credentials: {
-  #     provider: 'backblaze',
-  #     account_id: '7eeeecf0aba4',
-  #     application_key: '0003c78b33077a5ac0ab1f59f5a6bc2e00f70527a9',
-  #     bucket_name: 'crawler-instagram',
-  #   },
-  #   fog_directory: 'crawler-instagram',
-  #   fog_host: 'https://f000.backblazeb2.com/file/crawler-instagram/'
-  # }
-
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end

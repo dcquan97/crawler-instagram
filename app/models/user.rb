@@ -1,20 +1,7 @@
 class User < ApplicationRecord
   acts_as_paranoid
-  has_attached_file :avatar,
-                    styles: {
-                      thumb: "100x100#",
-                      small: "150x150>",
-                      medium: "200x200"
-                    },
-                    url: "https://f000.backblazeb2.com",
-                    path: ":attachment/:id/:style/:filename",
-                    storage: :backblaze,
-                    b2_credentials: {
-                      account_id: '7eeeecf0aba4',
-                      application_key: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
-                      bucket: 'crawler-instagram'
-                    },
-                    hash_secret: "longSecretString"
+  mount_uploader :avatar, AvatarUploader
+
   has_secure_password
   has_secure_token :confirmation_token
 
@@ -22,7 +9,6 @@ class User < ApplicationRecord
   has_many :images, through: :instagrams
   has_many :videos, through: :instagrans
 
-  validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png)
   validates :username, presence: true
   validates :email, presence: true
   validates_presence_of :password_digest, on: :create, allow_blank: true

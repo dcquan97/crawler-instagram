@@ -68,26 +68,7 @@ Rails.application.configure do
   # Use environment to access send email to account gmail
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
-  # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
-
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # Config Paperclip
-  Paperclip.options[:command_path] = "/usr/local/bin/identify"
-  config.serve_static_assets = true
-  config.paperclip_defaults = {
-    storage: :fog,
-    fog_credentials: {
-      provider: 'backblaze',
-      b2_account_id: '7eeeecf0aba4',
-      b2_account_token: '00030ec35b90b187036671d7a3e6c14268f04f36ce',
-      b2_bucket_name: 'crawler-instagram',
-      b2_bucket_id: '87cefefefe6cafd07a0b0a14',
-    },
-    fog_public: true,
-    fog_host: 'https://f000.backblazeb2.com'
-  }
 end

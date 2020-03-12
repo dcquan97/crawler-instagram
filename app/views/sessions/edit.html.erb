@@ -1,11 +1,12 @@
 <%= form_with model: @session, method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
   <div class="form-group row">
     <div class="col-sm-3 col-form-label">
-      <%= image_tag current_user.avatar.url(:thumb) %>
+      <%= f.hidden_field :avatar_cache %>
+      <%= image_tag current_user.avatar.url %>
     </div>
     <div class="col-sm-9">
       <p class="username"><%=current_user.username %></p>
-        <%= f.file_field :avatar, size: 270, accept: ".jpg,.jpeg,.png" %>
+        <%= f.file_field :avatar %>
     </div>
   </div>
   <div class="form-group row">
@@ -41,3 +42,6 @@
       <%= link_to "Remove Account",user_path(current_user.id) ,data: { confirm: "Are you sure?" }, method: :delete, class: 'text-danger'%>
   </div>
 
+<% content_for :script_cdn do %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<% end %>

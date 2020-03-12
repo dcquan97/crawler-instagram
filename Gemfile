@@ -19,13 +19,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-# gem using carrierwave
-#gem 'carrierwave', '~> 2.0'
 
-# Using paperclip
-gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
-gem 'paperclip-backblaze', github: 'alextsui05/paperclip-backblaze'
-gem 'fog-backblaze'
+# Using gem "cloudinary"
+gem "cloudinary"
+gem 'carrierwave'
+gem 'dropzonejs-rails'
 
 # Using Rmagick
 gem 'rmagick'

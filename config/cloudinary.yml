@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: tomosia
+  api_key: '995845143971292'
+  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: tomosia
+  api_key: '995845143971292'
+  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: tomosia
+  api_key: '995845143971292'
+  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  enhance_image_tag: true
+  static_file_support: false
