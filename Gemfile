@@ -46,6 +46,7 @@ gem 'popper_js', '~> 1.16.0'
 gem 'font-awesome-rails'
 gem 'seed-fu', '~> 2.3'
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+# gem 'dotenv-rails', groups: [:development, :test]
 # Use jquery
 gem 'jquery-rails'
 # Use figaro to setup enviroment variables
