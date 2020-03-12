@@ -32,9 +32,7 @@ class SessionsController < ApplicationController
 
   def update
     if current_user.authenticate(params[:password])
-      binding.pry
       current_user.update(permit_update_params)
-      Cloudinary::Uploader.upload(current_user.avatar.path)
       redirect_to dashboard_path
     else
       redirect_to profile_path
@@ -43,6 +41,6 @@ class SessionsController < ApplicationController
 
   private
   def permit_update_params
-    params.permit(:username, :email, :avatar, :avatar_cache)
+    params.permit(:username, :email, :avatar)
   end
 end

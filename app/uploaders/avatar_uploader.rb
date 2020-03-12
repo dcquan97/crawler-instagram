@@ -1,11 +1,11 @@
 class AvatarUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  # include CarrierWave::MiniMagick
   include Cloudinary::CarrierWave
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  # storage :file
 
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
@@ -26,7 +26,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg gif png)
   end
 
-  def default_url(*args)
-    "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+  def public_id
+    return "image/" + Cloudinary::Utils.random_public_id
   end
 end

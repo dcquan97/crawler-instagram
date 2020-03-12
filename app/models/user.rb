@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  attr_accessor :avatar
   acts_as_paranoid
 
   mount_uploader :avatar, AvatarUploader
