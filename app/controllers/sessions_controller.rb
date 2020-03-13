@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :authorize, only: [:edit, :destroy, :update, :crawler]
 
   def new
   end
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
   end
 
   def edit
-    @user = User.find(current_user.id)
+    @user = User.find_by(id: current_user.id)
   end
 
   def destroy
@@ -38,9 +38,13 @@ class SessionsController < ApplicationController
       redirect_to profile_path
     end
   end
-
   private
   def permit_update_params
     params.permit(:username, :email, :avatar)
+  end
+  def crawler
+    current_user.update status: false
+    CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
+    redirect_to dashboard_path
   end
 end

@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize, only: [:index]
-
+  before_action :authorize, only: [:destroy, :index]
   def index
     @images = current_user.images
   end
@@ -27,6 +26,16 @@ class UsersController < ApplicationController
       @user.send_email_activation_again
       UserMailer.confirmation_user(@user).deliver_later
       redirect_to root_path, notice: 'Please check your email to active account!'
+    end
+  end
+  def destroy
+    if current_user.password_digest == params[params[:password]]
+      current_user.destroy
+      session.clear
+      redirect_to root_path
+      SendEmailJob.set(wait: 2.seconds).perform_later(current_user)
+    else
+      redirect_to profile_path
     end
   end
   # Private method

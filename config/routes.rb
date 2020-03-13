@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   #dashboard
-  get '/dashboard' => 'users#index'
+  get'/delete_account' => 'sessions#delete_account'
+  get'/dashboard' => 'users#index'
   controller :sessions do
     get 'login'     => :new
     post 'login'    => :create
+    delete 'logout' => :destroy
     put 'profile'   => :update
     get 'profile'   => :edit
-    delete 'logout' => :destroy
+    post 'crawler'  => :crawler
   end
   #router-user
   resources :users
