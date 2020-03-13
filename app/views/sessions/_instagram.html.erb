@@ -4,18 +4,17 @@
       <%= link_to post_path(instagram.id) do %>
         <div class="post-stats">
           <div class="inner">
-            <i class="fa fa-heart"></i> <%= instagram.like_counter %>
+            <i class="fa fa-heart"></i> <%=number_to_human(instagram.like_counter, units: { thousand: 'k' , million: 'm'})%>
           </div>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="insta-post post-square">
+    <div class="insta-post post-square" onclick="#{post_path(instagram.id)}" style="background: url(<%= instagram.videos.first.thumbnail %>) no-repeat center top ">
       <%= link_to post_path(instagram.id) do %>
-        <%= video_tag(instagram.videos.first.file) %>
         <div class="post-stats">
           <div class="inner">
-            <i class="fa fa-heart"></i> <%= instagram.like_counter %>
+            <i class="fa fa-heart"></i> <%=number_to_human(instagram.like_counter, units: { thousand: 'k' , million: 'm'})%>
           </div>
         </div>
       <% end %>

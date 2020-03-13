@@ -3,6 +3,7 @@ class CreateImgur < ActiveRecord::Migration[5.2]
     create_table :imgurs do |t|
       t.string :type
       t.string :file
+      t.string :thumbnail
       t.datetime :deleted_at
       t.references :instagram, null: false, foreign_key: true
 

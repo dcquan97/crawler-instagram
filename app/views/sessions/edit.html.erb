@@ -9,51 +9,52 @@
       <a class="change-photo" href="">Change Profile Photo</a>
     </div>
   </div>
-  <div class="form-group row">
-    <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
-    <div class="col-sm-6">
-      <%= f.text_field :full_name, class: 'form-control' %>
-    </div>
+  <div class="row">
+    <ul class="col-sm-3"></ul>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item ">
+        <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#password" role="tab" data-toggle="tab">Password</a>
+      </li>
+    </ul>
   </div>
-  <div class="form-group row">
-    <%= f.label :decription, class: 'col-sm-3 col-form-label' %>
-    <div class="col-sm-6">
-      <%= f.text_area :decription, autofocus: true, class: 'form-control' %>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade show active" id="profile">
+      <div  class="form-group row in active">
+        <%= f.label :full_name, class: 'col-sm-3 col-form-label in active' %>
+        <%= f.text_field :full_name, class: 'col-sm-4 0form-control in active' %>
+      </div>
+      <div class="form-group row">
+        <%= f.label :decription, class: 'col-sm-3 col-form-label in active' %>
+        <%= f.text_area :decription, autofocus: true, class: 'col-sm-4 form-control in active' %>
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <%= f.label :new_password, class: 'col-sm-3 col-form-label' %>
-    <div class="col-sm-6">
-      <%= f.password_field :new_password, autocomplete: "new-password", class: 'form-control' %>
+    <div role="tabpanel" class="tab-pane fade" id="password">
+      <div class="form-group row">
+        <%= f.label :new_password, class: 'col-sm-3 col-form-label' %>
+        <%= f.password_field :new_password, autocomplete: "new-password", class: 'col-sm-4 form-control' %>
+      </div>
+      <div class="form-group row">
+        <%= f.label :password_confirmation, class: 'col-sm-3 col-form-label' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'col-sm-4 form-control' %>
+      </div>
+      <div class="form-group row">
+        <%= f.label :current_password, class: 'col-sm-3 col-form-label' %>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: 'col-sm-4 form-control' %>
+      </div>
     </div>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-  <div class="form-group row">
-    <%= f.label :password_confirmation, class: 'col-sm-3 col-form-label' %>
-    <div class="col-sm-6">
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+
+    <div class="form-group row">
+      <div class="col-xl-3">
+      </div>
+        <%= f.submit "Save",data: { confirm: "Are you sure?" }, class: 'btn btn-primary' %>
     </div>
-  </div>
-  <div class="form-group row">
-    <%= f.label :current_password, class: 'col-sm-3 col-form-label' %>
-    <div class="col-sm-6">
-      <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-xl-8">
-    </div>
-    <div class="col-sm-2">
-      <%= f.submit "Save",data: { confirm: "Are you sure?" }, class: 'btn btn-primary' %>
-    </div>
-  </div>
+</div>
 <% end %>
   <div class="form-group row">
-    <div class="col-xl-7">
+    <div class="col-xl-3">
     </div>
-    <div class="col-sm-5">
-      <%= link_to "Remove Account", delete_account_path, class: 'text-danger js-account--close'%>
+      <%= link_to "Remove Account", delete_account_path, class: 'text-danger js-account--close col-sm-5'%>
   </div>

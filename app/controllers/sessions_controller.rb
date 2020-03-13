@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to dashboard_path
     else
-      redirect_to login_path
+      redirect_to login_path , notice: "notice"
     end
   end
 
@@ -28,13 +28,13 @@ class SessionsController < ApplicationController
 
   def update
     if params[:full_name].size > 8
-      current_user.update_attributes!(full_name: params[:full_name])
+      current_user.update(full_name: params[:full_name])
       redirect_to dashboard_path
     elsif params[:decription].size > 1
-      current_user.update_attributes!(decription: params[:decription])
+      current_user.update(decription: params[:decription])
       redirect_to dashboard_path
     elsif current_user&.authenticate(params[:current_password]) && params[:new_password] == params[:password_confirmation]
-      current_user.update_attributes!(password: params[:new_password])
+      current_user.update(password: params[:new_password])
       redirect_to dashboard_path
     else
       redirect_to profile_path

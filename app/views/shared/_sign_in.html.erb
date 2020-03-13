@@ -1,8 +1,26 @@
-<% if current_user.status == false%>
-  <i class="text-secondary">Loading...</i>
-<%else%>
-  <%=link_to 'Get Post', crawler_path, method: :post%>
-<%end%>
-<%=link_to 'Dashboard', dashboard_path%>
-<%=link_to 'Profile', profile_path%>
-<%=link_to 'Log Out', logout_path, method: :delete %>
+<div class="container">
+  <div>
+    <% if current_user.status == false%>
+      <span class="spinner-border spinner-border-sm text-dark icon-download" role="status">
+      </span><i class="text-dark"> Processing...</i>
+    <%else%>
+      <%=link_to '', crawler_path, method: :post, class: 'fa fa-download text-dark icon-download'%>
+    <%end%>
+  </div>
+  <div class="dropdown">
+    <%= image_tag current_user.avatar, class: 'layout-profile-pic'%>
+  <div class="dropdown-content">
+    <li><%=link_to 'Profile', profile_path, class: 'text-dark'%></li>
+    <li><%=link_to 'Log Out', logout_path, method: :delete ,class: 'text-dark'%></li>
+  </div>
+</div>
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%profile_path%>">Profile</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 2</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 3</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 4</a></li>
+  </ul>
+</div>
+</div>

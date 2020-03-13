@@ -28,6 +28,7 @@ class CrawlerJob < ActiveJob::Base
         instagram_id = current_instagram.id
         image        = n.image
         video        = n.video
+        thumbnail    = n.thumbnail
         time_post    = n.time_post
         if image.class == String
           Image.create(instagram_id: instagram_id,file: image)
@@ -40,12 +41,12 @@ class CrawlerJob < ActiveJob::Base
             IO.copy_stream(download, "tmp/image/#{instagram_id}-#{time_post}-image.png")
           end
         elsif video.class == String
-            Video.create(instagram_id: instagram_id,file: video)
+            Video.create(instagram_id: instagram_id,file: video,thumbnail: thumbnail)
             download = open(video)
             IO.copy_stream(download, "tmp/video/#{instagram_id}-#{time_post}-video.mp4")
         else
           video.each do |video_url|
-            Video.create(instagram_id: instagram_id,file: video_url)
+            Video.create(instagram_id: instagram_id,file: video_url,thumbnail: thumbnail)
             download = open(video_url)
             IO.copy_stream(download, "tmp/video/#{instagram_id}-#{time_post}-video.png")
           end

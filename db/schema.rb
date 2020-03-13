@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_02_27_073813) do
   create_table "imgurs", force: :cascade do |t|
     t.string "type"
     t.string "file"
+    t.string "thumbnail"
     t.datetime "deleted_at"
     t.bigint "instagram_id", null: false
     t.datetime "created_at", null: false
