@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   #dashboard
   get'/delete_account' => 'sessions#delete_account'
-  get'/dashboard' => 'users#index'
+  get'/dashboard' => 'sessions#index'
   controller :sessions do
     get 'login'     => :new
     post 'login'    => :create
@@ -12,13 +12,12 @@ Rails.application.routes.draw do
   end
   #router-user
   resources :users
-  #router-post
-  resources :post
   # Password Reset and Password forgot
   resources :password
   # Sidekiq Routes
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-  #homepage
   root 'home#index'
+  #router-post
+  resources :posts, only: [:show,:edit]
 end

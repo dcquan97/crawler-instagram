@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_12_015803) do
+ActiveRecord::Schema.define(version: 2020_03_06_043713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2020_03_12_015803) do
     t.bigint "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_imgurs_on_deleted_at"
     t.index ["instagram_id"], name: "index_imgurs_on_instagram_id"
     t.index ["type", "instagram_id"], name: "index_imgurs_on_type_and_instagram_id"
   end
@@ -53,37 +52,42 @@ ActiveRecord::Schema.define(version: 2020_03_12_015803) do
     t.string "post_id"
     t.integer "like_counter"
     t.datetime "deleted_at"
+    t.datetime "time_post"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_instagrams_on_deleted_at"
     t.index ["user_id"], name: "index_instagrams_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
+    t.string "avatar"
     t.datetime "deleted_at"
     t.boolean "status"
     t.string "email", default: "", null: false
+    t.string "password_digest", default: "", null: false
+    t.string "decription"
+    t.integer "followers"
+    t.integer "following"
+    t.string "website"
+    t.string "auth_token"
+    t.string "full_name", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
+    t.string "remember_token"
     t.datetime "remember_created_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
+    t.boolean "confirmation", default: false
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password_digest"
-    t.string "auth_token"
-    t.boolean "confirmation", default: false
-    t.string "avatar"
-    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "instagrams", "imgurs"
   add_foreign_key "imgurs", "instagrams"
   add_foreign_key "instagrams", "users"
 end

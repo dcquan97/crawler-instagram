@@ -1,8 +1,8 @@
-<% provide(:title, 'Profile') %>
-<%= form_with model: @session, method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
+<% provide(:title, 'Edit Profile') %>
+<%= form_with model: @session,method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
   <div class="form-group row">
     <div class="col-sm-3 col-form-label">
-      <%= image_tag current_user.avatar.thumb.url %>
+      <%= image_tag current_user.avatar.thumb.url, class: "edit-profile-pic"%>
     </div>
     <div class="col-sm-9">
       <p class="username"><%=current_user.username %></p>
@@ -10,21 +10,33 @@
     </div>
   </div>
   <div class="form-group row">
-    <%= f.label :username, class: 'col-sm-3 col-form-label' %>
+    <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
     <div class="col-sm-6">
-      <%= f.text_field :username, class: 'form-control' %>
+      <%= f.text_field :full_name, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group row">
-    <%= f.label :email, class: 'col-sm-3 col-form-label' %>
+    <%= f.label :decription, class: 'col-sm-3 col-form-label' %>
     <div class="col-sm-6">
-      <%= f.text_field :email, class: 'form-control' %>
+      <%= f.text_area :decription, autofocus: true, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group row">
-    <%= f.label :password, class: 'col-sm-3 col-form-label' %>
+    <%= f.label :new_password, class: 'col-sm-3 col-form-label' %>
     <div class="col-sm-6">
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.password_field :new_password, autocomplete: "new-password", class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label :password_confirmation, class: 'col-sm-3 col-form-label' %>
+    <div class="col-sm-6">
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label :current_password, class: 'col-sm-3 col-form-label' %>
+    <div class="col-sm-6">
+      <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
     </div>
   </div>
   <div class="form-group row">

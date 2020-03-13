@@ -1,12 +1,16 @@
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :authorize, only: [:edit, :destroy, :update, :crawler]
 
   def new
+    if current_user.present?
+      redirect_to dashboard_path
+    end
   end
 
   def create
-    @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
+    @user = User.find_by(email: params[:user][:email])
+    if @user && @user.authenticate(params[:user][:password])
       if params[:remember_me] == 'true'
         cookies[:auth_token] = {
           value: @user.auth_token,
@@ -17,7 +21,7 @@ class SessionsController < ApplicationController
       end
       redirect_to dashboard_path, notice: 'Success login!'
     else
-      redirect_to login_path
+      redirect_to login_path, alert: 'Not found account'
     end
   end
 
@@ -25,26 +29,42 @@ class SessionsController < ApplicationController
     @user = User.find_by(id: current_user.id)
   end
 
-  def destroy
-    cookies.delete(:auth_token)
-    redirect_to root_path
-  end
-
   def update
-    if current_user.authenticate(params[:password])
-      current_user.update(permit_update_params)
+    if params[:avatar].present?
+      current_user.update(avatar: params[:avatar])
+      binding.pry
+    elsif params[:full_name].size > 8
+      current_user.update!(full_name: params[:full_name])
+      redirect_to dashboard_path
+    elsif params[:decription].size > 1
+      current_user.update!(decription: params[:decription])
+      redirect_to dashboard_path
+    elsif current_user&.authenticate(params[:current_password]) && params[:new_password] == params[:password_confirmation]
+      current_user.update!(password: params[:new_password])
       redirect_to dashboard_path
     else
       redirect_to profile_path
     end
   end
-  private
-  def permit_update_params
-    params.permit(:username, :email, :avatar)
+
+  def destroy
+    cookies.delete(:auth_token)
+    redirect_to root_path
   end
+
   def crawler
     current_user.update status: false
     CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
     redirect_to dashboard_path
+  end
+
+  def index
+    @account    = current_user
+    @instagrams = current_user.instagrams&.order_by_time_post
+  end
+
+  private
+  def permit_update_params
+    params.permit(:username, :email, :avatar)
   end
 end

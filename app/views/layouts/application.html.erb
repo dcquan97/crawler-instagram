@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%= favicon_link_tag asset_path('instagram.ico') %>
     <title><%= yield :title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,7 +12,11 @@
     <%= cloudinary_js_config %>
   </head>
   <body>
-    <%= render 'shared/header' %>
+    <div class="container-fluid">
+      <%= render 'shared/header' %>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </div>
     <%= yield %>
     <%= render 'shared/footer' %>
   </body>

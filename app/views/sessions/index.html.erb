@@ -1,0 +1,24 @@
+<% provide(:title, @account.full_name + "(@#{@account.username}) • Instagram photos and videos") %>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <%= image_tag @account.avatar.url, width: "190px", class: "profile-pic"%>
+    </div>
+    <div class="col-8 text-left">
+      <h2><%= @account.username %>  <%= link_to "<i class='fa fa-edit'></i>".html_safe, profile_path %></h2>
+      <div class="profile-stats2"><b><%= @account.instagrams.count %></b> posts</div>
+      <div class="profile-stats"><b><%=number_to_human(@account.followers, format: '%n%u', units: { thousand: 'K' })%></b> followers</div>
+      <div class="profile-stats"><b><%=number_to_human(@account.following, format: '%n%u', units: { thousand: 'K' })%></b> following</div>
+      <br>
+      <br>
+      <b><%= @account.full_name %></b>
+      <p><%= simple_format @account.decription %></p>
+      <p><b><%= link_to @account.website if @account.website.present? %></b></p>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row profile-posts">
+    <%= render partial: 'instagram', collection: @instagrams %>
+  </div>
+</div>

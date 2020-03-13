@@ -1,15 +1,7 @@
 # User.seed do |s|
 #   s.id    = 1
-#   s.email = "jon@example.com"
-#   s.username  = "jon"
+#   s.email = "dcq@gmail.com"
+#   s.username  = "hauyenn"
 #   s.avatar = Faker::Avatar.image(slug: "my-own-slug", size: "50x50", format: "jpg")
-#   s.password_digest = "123"
-# end
-
-# User.seed do |s|
-#   s.id    = 2
-#   s.email = "emily@example.com"
-#   s.username  = "emily"
-#   s.avatar = Faker::Avatar.image(slug: "my-own-slug", size: "50x50", format: "jpg")
-#   s.password_digest = "321"
+#   s.password = "123"
 # end
