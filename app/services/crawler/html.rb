@@ -1,7 +1,6 @@
 module Crawler
   class ProfileInstagram
     attr :image, :content, :like_count, :video , :post_id, :time_post
-
     def initialize(image:, video:, content:, like_count:, post_id:, time_post:)
       @image      = image
       @video      = video
