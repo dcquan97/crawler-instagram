@@ -1,7 +1,11 @@
 <% provide(:title, 'Remove Account') %>
+<<<<<<< HEAD:app/views/sessions/delete_account.html.erb
 <%= form_tag user_path, method: :delete, class: "form-horizontal form-edit-user"  do |f| %>
+=======
+<%= form_with model: @user,method: :put, local: true, html: {class: "form-horizontal form-edit-user"} do |f| %>
+>>>>>>> edit_post:app/views/users/show.html.erb
   <div class="form-group row">
-    <div class="col-sm-8 col-form-label">
+    <div class="col-sm-7 col-form-label">
       <h2>Confirm password to remove Account</h2>
     </div>
   <div class="form-group row">

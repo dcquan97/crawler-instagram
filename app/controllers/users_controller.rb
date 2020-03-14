@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize, only: [:destroy]
+  before_action :authorize, only: [:destroy, :show]
 
   def new
   end
@@ -13,6 +13,8 @@ class UsersController < ApplicationController
   	else
   		redirect_to new_user_path
   	end
+  end
+  def show
   end
 
   def edit
@@ -37,7 +39,7 @@ class UsersController < ApplicationController
       redirect_to root_path
       SendEmailJob.set(wait: 2.seconds).perform_later(current_user)
     else
-      redirect_to profile_path
+      redirect_to profile_path, notice: 'Password not valid.'
     end
   end
 

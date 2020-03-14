@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   #dashboard
-  get'/delete_account' => 'sessions#delete_account'
+  get'/delete_account' => 'users#show'
   get'/dashboard' => 'sessions#index'
   controller :sessions do
     get 'login'     => :new
