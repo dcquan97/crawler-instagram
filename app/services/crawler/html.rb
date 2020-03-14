@@ -1,9 +1,10 @@
 module Crawler
   class ProfileInstagram
-    attr :image, :content, :like_count, :video , :post_id, :time_post
-    def initialize(image:, video:, content:, like_count:, post_id:, time_post:)
+    attr :image, :content, :like_count, :video , :post_id, :time_post, :thumbnail
+    def initialize(image:, video:, content:, like_count:, post_id:, time_post:, thumbnail:)
       @image      = image
       @video      = video
+      @thumbnail  = thumbnail
       @content    = content
       @like_count = like_count
       @post_id    = post_id
@@ -97,6 +98,7 @@ module Crawler
           js_data         = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
           json            = JSON.parse(js_data.text[21..-2])
           shortcode_media = json["entry_data"]["PostPage"][0]["graphql"]["shortcode_media"]
+          thumbnail       = shortcode_media["display_url"]
           check_content = shortcode_media.dig("edge_media_to_caption","edges")&.first
             if check_content.nil?
               content = ""
@@ -105,7 +107,7 @@ module Crawler
             end
           like_count      = shortcode_media["edge_media_preview_like"]["count"]
           post_id         = node["id"]
-          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time)
+          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: thumbnail)
         else
           shortcode_media_url = parsing_photo_page(HTTParty.get(page_url))
           if shortcode_media_url.is_a? Array
@@ -127,7 +129,7 @@ module Crawler
             end
             like_count = media["edge_media_preview_like"]["count"]
             post_id    = node["id"]
-            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time)
+            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: @img.first)
           else
             shortcode_media_url
             media         = shortcode_media(HTTParty.get(page_url))
@@ -139,7 +141,7 @@ module Crawler
             end
             like_count    = media["edge_media_preview_like"]["count"]
             post_id       = node["id"]
-            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time)
+            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: shortcode_media_url)
           end
         end
       end

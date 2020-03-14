@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   # Delete account and verify when delete
   def destroy
-    if current_user.password_digest == params[params[:password]]
+    if current_user.password == params[params[:password]]
       current_user.destroy
       cookies.clear
       redirect_to root_path

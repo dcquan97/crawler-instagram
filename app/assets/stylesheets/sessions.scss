@@ -1,11 +1,11 @@
 .profile-pic {
   margin-left : 100px;
-  border-radius: 50%
+  border-radius: 50%;
 }
 .edit-profile-pic {
   height: 55px;
   width: 55px;
-  border-radius: 50%
+  border-radius: 50%;
 }
 .profile-stats2 {
   width: 17%;
@@ -68,4 +68,13 @@
   .post-stats {
     display: block;
   }
+}
+
+.fa-edit:before, .fa-pencil-square-o:before {
+    content: "\f044";
+    font-size: 18px;
+}
+
+.edit-profile {
+  margin-bottom: 10px;
 }

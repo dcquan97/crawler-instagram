@@ -1,8 +1,8 @@
 <!--Navigation Bar-->
-<nav class="navbar navbar-light bg-light d-flex">
-  <div class="container">
+<nav class="navbar navbar-light bg-light d-flex fixed-header">
+  <div class="container tab-header">
     <div class="logo">
-      <%= link_to 'Instagram', root_path, :class => 'fa fa-instagram navbar-brand'%>
+      <%= link_to image_tag('text-instagram.png'), root_path%>
     </div>
     <div class="user-section">
       <% if current_user %>

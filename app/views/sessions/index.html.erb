@@ -7,13 +7,13 @@
     <div class="col-8 text-left">
       <h2><%= @account.username %>  <%= link_to "<i class='fa fa-edit'></i>".html_safe, profile_path %></h2>
       <div class="profile-stats2"><b><%= @account.instagrams.count %></b> posts</div>
-      <div class="profile-stats"><b><%=number_to_human(@account.followers, format: '%n%u', units: { thousand: 'K' })%></b> followers</div>
-      <div class="profile-stats"><b><%=number_to_human(@account.following, format: '%n%u', units: { thousand: 'K' })%></b> following</div>
+      <div class="profile-stats"><b><%=number_to_human(@account.followers,units:{ thousand:'k' , million: 'm' })%></b> followers</div>
+      <div class="profile-stats"><b><%=number_to_human(@account.following,units:{ thousand:'k' , million: 'm'})%></b> following</div>
       <br>
       <br>
       <b><%= @account.full_name %></b>
-      <p><%= simple_format @account.decription %></p>
-      <p><b><%= link_to @account.website if @account.website.present? %></b></p>
+      <%= simple_format @account.decription %>
+      <b><%= link_to "#{@account.website if @account.website.present?}", @account.website, target: "_blank", rel: "nofollow"%></b>
     </div>
   </div>
 </div>

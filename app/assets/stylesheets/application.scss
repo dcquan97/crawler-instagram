@@ -17,11 +17,27 @@
 @import "bootstrap";
 @import "font-awesome";
 
-.btn btn-customm {
+.btn-customm {
   background: transparent;
   border: 2px solid #ddd !important;
   border-radius: 4px !important;
 }
 .btn-customm:hover {
   background: #ddd !important;
+}
+
+.fixed-header{
+    width: 100%;
+    position: fixed;
+    background: #333;
+    padding: 10px 0;
+    color: #fff;
+    z-index: 2;
+}
+.fixed-header{
+    top: 0;
+}
+
+.notice {
+  margin-top: 50px;
 }

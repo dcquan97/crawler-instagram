@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authorize, only: [:edit, :destroy, :update, :crawler]
+  before_action :authorize, only: [:edit, :destroy, :update, :crawler, :index]
 
   def new
     if current_user.present?
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       end
       redirect_to dashboard_path, notice: 'Success login!'
     else
-      redirect_to login_path, alert: 'Not found account'
+      redirect_to login_path, notice: 'Not found account'
     end
   end
 
@@ -33,13 +33,16 @@ class SessionsController < ApplicationController
     if params[:avatar].present?
       current_user.update(avatar: params[:avatar])
     elsif params[:full_name].size > 8
-      current_user.update!(full_name: params[:full_name])
+      current_user.update(full_name: params[:full_name])
+      redirect_to dashboard_path
+    elsif params[:website].size > 1
+      current_user.update(website: params[:website])
       redirect_to dashboard_path
     elsif params[:decription].size > 1
-      current_user.update!(decription: params[:decription])
+      current_user.update(decription: params[:decription])
       redirect_to dashboard_path
     elsif current_user&.authenticate(params[:current_password]) && params[:new_password] == params[:password_confirmation]
-      current_user.update!(password: params[:new_password])
+      current_user.update(password: params[:new_password])
       redirect_to dashboard_path
     else
       redirect_to profile_path
@@ -59,7 +62,7 @@ class SessionsController < ApplicationController
 
   def index
     @account    = current_user
-    @instagrams = current_user.instagrams&.order_by_time_post
+    @instagrams = current_user.instagrams.order_by_time_post
   end
 
   private
