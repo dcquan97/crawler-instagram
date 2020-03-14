@@ -65,8 +65,4 @@ class SessionsController < ApplicationController
     @instagrams = current_user.instagrams.order_by_time_post
   end
 
-  private
-  def permit_update_params
-    params.permit(:username, :email, :avatar)
-  end
 end

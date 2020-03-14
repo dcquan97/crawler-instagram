@@ -137,7 +137,7 @@ module Crawler
             if check_content.nil?
               content = ""
             else
-              content       = check_content.dig("node","text")
+              content     = check_content.dig("node","text")
             end
             like_count    = media["edge_media_preview_like"]["count"]
             post_id       = node["id"]
