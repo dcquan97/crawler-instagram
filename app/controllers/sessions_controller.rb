@@ -32,7 +32,6 @@ class SessionsController < ApplicationController
   def update
     if params[:avatar].present?
       current_user.update(avatar: params[:avatar])
-      binding.pry
     elsif params[:full_name].size > 8
       current_user.update!(full_name: params[:full_name])
       redirect_to dashboard_path

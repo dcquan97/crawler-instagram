@@ -1,7 +1,5 @@
 module SessionsHelper
-
   def instagram_images images
-    # binding.pry
     images.each_with_index.map do |image, index|
       active_class = index == 0 ? 'active' : ''
       <<-HTML

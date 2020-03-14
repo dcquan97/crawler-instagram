@@ -1,6 +1,5 @@
 class Imgur < ApplicationRecord
+  mount_uploaders :file, FileUploader
   scope :images, -> { where(type: 'Image') }
   scope :videos, -> { where(type: 'Video') }
-  has_many_attached :images
-  has_many_attached :videos
 end

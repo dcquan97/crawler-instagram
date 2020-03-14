@@ -15,7 +15,7 @@
     </div>
     <div class="col-4">
       <div class="post-meta">
-        <%= link_to (image_tag current_user.avatar, class: 'img-circle'), dashboard_path%>
+        <%= link_to (image_tag current_user.avatar.thumb.url, class: 'img-circle'), dashboard_path%>
         <%= link_to current_user.username, dashboard_path, class: 'text-dark' %>
       </div>
       <div class="post-details">

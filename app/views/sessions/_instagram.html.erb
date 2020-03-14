@@ -12,7 +12,7 @@
   <% else %>
     <div class="insta-post post-square">
       <%= link_to post_path(instagram.id) do %>
-        <%= video_tag(instagram.videos.first.file) %>
+        <%= video_tag(instagram.videos.first.file, :multiple => true) if instagram.videos.present? %>
         <div class="post-stats">
           <div class="inner">
             <i class="fa fa-heart"></i> <%= instagram.like_counter %>
