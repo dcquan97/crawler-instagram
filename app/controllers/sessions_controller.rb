@@ -11,9 +11,9 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params["/login"][:email])
     if @user&.authenticate(params["/login"][:password])
       session[:user_id] = @user.id
-      redirect_to dashboard_path
+      redirect_to dashboard_path , notice: 'Login success.'
     else
-      redirect_to login_path , notice: "notice"
+      redirect_to login_path , alert: 'Not Found Account.'
     end
   end
 
@@ -29,16 +29,16 @@ class SessionsController < ApplicationController
   def update
     if params[:full_name].size > 8
       current_user.update(full_name: params[:full_name])
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Update success.'
     elsif params[:website].size > 1
       current_user.update(website: params[:website])
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Update success.'
     elsif params[:decription].size > 1
       current_user.update(decription: params[:decription])
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Update success.'
     elsif current_user&.authenticate(params[:current_password]) && params[:new_password] == params[:password_confirmation]
       current_user.update(password: params[:new_password])
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Update success.'
     else
       redirect_to profile_path
     end
