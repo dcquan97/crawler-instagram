@@ -30,6 +30,9 @@ class SessionsController < ApplicationController
     if params[:full_name].size > 8
       current_user.update(full_name: params[:full_name])
       redirect_to dashboard_path
+    elsif params[:website].size > 1
+      current_user.update(website: params[:website])
+      redirect_to dashboard_path
     elsif params[:decription].size > 1
       current_user.update(decription: params[:decription])
       redirect_to dashboard_path
