@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   root 'home#index'
   #router-post
-  resources :posts, only: [:show,:edit]
+  resources :posts, only: [:show,:update]
 end
