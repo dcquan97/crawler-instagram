@@ -10,12 +10,6 @@ class CrawlerJob < ActiveJob::Base
       ErrorGetPostJob.set(wait: 2.seconds).perform_later(current_user)
     else
       crawl.parsing
-      crawl.data_user.each do |user|
-        download     = open(user.avatar)
-        IO.copy_stream(download,"tmp/avt/avatar.png")
-        url_avt = File.open("tmp/avt/avatar.png")
-        current_user.update(decription: user.decription, website: user.website, full_name: user.full_name, following: user.following, followers: user.followers, avatar: url_avt)
-      end
       crawl.data.each do |n|
         like_counter     = n.like_count
         title            = n.content
@@ -65,8 +59,17 @@ class CrawlerJob < ActiveJob::Base
         end
 
       end
+
+      crawl.data_user.each do |users|
+        download     = open(users.avatar)
+        IO.copy_stream(download,"tmp/avt/avatar.png")
+        url_avt = File.open("tmp/avt/avatar.png")
+        current_user.update(decription: users.decription, website: users.website, full_name: users.full_name, following: users.following, followers: users.followers)
+        current_user.status = true
+        current_user.avatar = url_avt
+        current_user.save!
+      end
       DoneGetPostJob.set(wait: 2.seconds).perform_later(current_user)
     end
-    current_user.update status: true
   end
 end
