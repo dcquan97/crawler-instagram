@@ -4,7 +4,7 @@ module SessionsHelper
       active_class = index == 0 ? 'active' : ''
       <<-HTML
         <div class="carousel-item #{active_class}">
-          <img src="#{image.file}" class="d-block w-100 img img-fluid">
+          <img src="#{image.file.url}" class="d-block w-100 img img-fluid">
         </div>
       HTML
     end.reduce(:concat).html_safe
@@ -19,7 +19,7 @@ module SessionsHelper
         <div class="view">
           <!--Video source-->
           <div class="embed-responsive embed-responsive-4by3">
-            <iframe class="embed-responsive-item" src="#{video.file}" ></iframe>
+            <iframe class="embed-responsive-item" src="#{video.file.url}" ></iframe>
           </div>
         </div>
       </div>

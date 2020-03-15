@@ -11,7 +11,10 @@ class CrawlerJob < ActiveJob::Base
     else
       crawl.parsing
       crawl.data_user.each do |user|
-        current_user.update(decription: user.decription, website: user.website, full_name: user.full_name, following: user.following, followers: user.followers, avatar: user.avatar)
+        download     = open(user.avatar)
+        IO.copy_stream(download,"tmp/avt/avatar.png")
+        url_avt = File.open("tmp/avt/avatar.png")
+        current_user.update(decription: user.decription, website: user.website, full_name: user.full_name, following: user.following, followers: user.followers, avatar: url_avt)
       end
       crawl.data.each do |n|
         like_counter     = n.like_count
@@ -22,7 +25,7 @@ class CrawlerJob < ActiveJob::Base
         if select_post.nil?
           current_instagram = current_user.instagrams.create(post_id: post_id, content: title, like_counter: like_counter, time_post: time_post)
         else
-          select_post.update_attributes(content: title, like_counter: like_counter)
+          select_post.update(content: title, like_counter: like_counter)
           next
         end
         instagram_id = current_instagram.id
@@ -30,25 +33,34 @@ class CrawlerJob < ActiveJob::Base
         video        = n.video
         thumbnail    = n.thumbnail
         time_post    = n.time_post
+
         if image.class == String
-          Image.create(instagram_id: instagram_id,file: image)
-          download = open(image)
-          IO.copy_stream(download, "tmp/images/#{instagram_id}-#{time_post}-image.png")
+          download     = open(image)
+          number       = rand(100)
+          IO.copy_stream(download,"tmp/images/#{instagram_id}#{number}.png")
+          url_img = open("tmp/images/#{instagram_id}#{number}.png")
+          Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
         elsif image != []
           image.each do |image_url|
-            Image.create(instagram_id: instagram_id,file: image_url)
+            number       = rand(100)
             download = open(image_url)
-            IO.copy_stream(download, "tmp/images/#{instagram_id}-#{time_post}-image.png")
+            IO.copy_stream(download,"tmp/images/#{instagram_id}#{number}.png")
+            url_img = open("tmp/images/#{instagram_id}#{number}.png")
+            Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
           end
         elsif video.class == String
-            Video.create(instagram_id: instagram_id,file: video,thumbnail: thumbnail)
+            number       = rand(100)
             download = open(video)
-            IO.copy_stream(download, "tmp/videos/#{instagram_id}-#{time_post}-video.mp4")
+            IO.copy_stream(download,"tmp/videos/#{instagram_id}#{number}.mp4")
+            url_video = open("tmp/videos/#{instagram_id}#{number}.mp4")
+            Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: thumbnail)
         else
           video.each do |video_url|
-            Video.create(instagram_id: instagram_id,file: video_url,thumbnail: thumbnail)
+            number       = rand(100)
             download = open(video_url)
-            IO.copy_stream(download, "tmp/videos/#{instagram_id}-#{time_post}-video.png")
+            IO.copy_stream(download,"tmp/videos/#{instagram_id}#{number}.mp4")
+            url_video = open("tmp/videos/#{instagram_id}#{number}.mp4")
+            Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: thumbnail)
           end
         end
 

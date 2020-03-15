@@ -1,6 +1,6 @@
 <div class="col-4">
   <% if instagram.images.present? %>
-    <div class="insta-post post-square" style="background: url(<%= instagram.images.first.file %>) no-repeat center top ">
+    <div class="insta-post post-square" style="background: url(<%= instagram.images.first.file.url %>) no-repeat center top ">
       <%= link_to post_path(instagram.id) do %>
         <div class="post-stats">
           <div class="inner">

@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-4">
-      <%= image_tag @account.avatar.url, width: "190px", class: "profile-pic"%>
+      <%= image_tag @account.avatar.url, class: "profile-pic"%>
     </div>
     <div class="col-8 text-left">
       <h2><%= @account.username %>  <%= link_to "<i class='fa fa-edit'></i>".html_safe, profile_path %></h2>

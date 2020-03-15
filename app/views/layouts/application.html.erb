@@ -2,7 +2,7 @@
 <html>
   <head>
     <%= favicon_link_tag asset_path('instagram.ico') %>
-    <title><%= yield :title %></title>
+    <title><%= (yield :title).presence || 'Instagram' %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :script_cdn %>
@@ -14,7 +14,7 @@
   <body>
     <div class="container-fluid">
       <%= render 'shared/header' %>
-      <p class="notice text-success"><%= notice %></p>
+      <p class="notice text-success"><%= (yield :notice).presence || notice %></p>
       <p class="alert text-danger"><%= alert %></p>
       <%= yield %>
       <%= render 'shared/footer' %>
