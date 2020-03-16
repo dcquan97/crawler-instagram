@@ -20,4 +20,9 @@ Rails.application.routes.draw do
   root 'home#index'
   #router-post
   resources :posts, only: [:show,:update]
+  # Payment method with stripe
+  resources :billing, only: [:index, :new, :create]
+  get '/card/new' => 'billing#new_card', as: :add_payment_method
+  post '/card'    => 'billing#create_card', as: :create_payment_method
+  get '/success'  => 'billing#success', as: :success
 end

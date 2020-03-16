@@ -1,0 +1,22 @@
+var handler = StripeCheckout.configure({
+  key:  "pk_test_jHbD4scNy2WTl4c0rZCHen1g00ZJblHvOu",
+  locale: 'auto',
+  name: 'Payment',
+  description: "Add your credit card information",
+  email: "<%= current_user.email %>",
+  panelLabel: "Add payment method",
+  allowRememberMe: false,
+  token: function (token) {
+    var form = document.getElementById('billing-create-payment-method');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+    form.submit();
+  }
+});
+handler.open();
+window.addEventListener('popstate', function() {
+  handler.close();
+});

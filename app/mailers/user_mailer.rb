@@ -22,4 +22,9 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: "Error Get Post Email")
   end
+
+  def create_billing_email(user)
+    @user = user
+    mail(to: @user.email, subject: "Done Add Checkout Method Email")
+  end
 end

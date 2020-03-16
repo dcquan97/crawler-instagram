@@ -32,7 +32,8 @@ class SessionsController < ApplicationController
   def update
     if params[:avatar].present?
       current_user.update(avatar: params[:avatar])
-    elsif params[:full_name].size > 8
+      redirect_to dashboard_path, notice: 'Update success.'
+    elsif params[:full_name].blank?
       current_user.update(full_name: params[:full_name])
       redirect_to dashboard_path, notice: 'Update success.'
     elsif params[:website].size > 1
@@ -55,9 +56,13 @@ class SessionsController < ApplicationController
   end
 
   def crawler
-    current_user.update status: false
-    CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
-    redirect_to dashboard_path
+    if current_user.card_token.blank?
+      redirect_to billing_index_path
+    else
+      current_user.update status: false
+      CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
+      redirect_to dashboard_path
+    end
   end
 
   def index
@@ -65,4 +70,8 @@ class SessionsController < ApplicationController
     @instagrams = current_user.instagrams.order_by_time_post
   end
 
+  private
+  def stripe_params
+    params.permit :stripeEmail, :stripeToken
+  end
 end
