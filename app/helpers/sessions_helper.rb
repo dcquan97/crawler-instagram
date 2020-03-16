@@ -18,7 +18,7 @@ module SessionsHelper
       <!--Mask color-->
         <div class="view">
           <!--Video source-->
-          <div class="embed-responsive embed-responsive-4by3">
+          <div class="embed-responsive embed-responsive-1by1">
             <iframe class="embed-responsive-item" src="#{video.file.url}" ></iframe>
           </div>
         </div>

@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:user][:email])
-    if @user && @user.authenticate(params[:user][:password])
+    if @user && @user.authenticate(params[:user][:password]) && @user.confirmation == true
       if params[:remember_me] == 'true'
         cookies[:auth_token] = {
           value: @user.auth_token,
