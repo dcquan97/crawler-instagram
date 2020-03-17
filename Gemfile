@@ -28,7 +28,7 @@ gem 'uglifier', '>= 1.3.0'
 gem "cloudinary"
 gem 'carrierwave', '~> 2.0'
 gem 'dropzonejs-rails'
-
+gem 'activerecord-jdbcpostgresql-adapter'
 # Using Rmagick
 gem 'rmagick'
 # Using minimagick
