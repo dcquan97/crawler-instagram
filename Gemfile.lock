@@ -345,7 +345,7 @@ DEPENDENCIES
   pry
   puma (~> 3.12)
   rails (~> 5.2.4.1)
-  redis (~> 4.0)
+  redis
   rmagick
   sass-rails (~> 5.0)
   seed-fu (~> 2.3)
