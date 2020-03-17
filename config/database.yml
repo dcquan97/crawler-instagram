@@ -1,19 +1,21 @@
 default: &default
   adapter: postgresql
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>db/insta-development
   timeout: 5000
 
 development:
-  <<: *default
-  database: db/insta-development
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+  adapter: postgresql
+  database: db/insta_development
+  pool: 5
+  timeout: 5000
 test:
-  <<: *default
-  database: db/insta-test
+  adapter: postgresql
+  database: db/insta_test
+  pool: 5
+  timeout: 5000
 
 production:
-  <<: *default
-  database: db/insta-production
+  adapter: postgresql
+  database: db/insta_production
+  pool: 5
+  timeout: 5000
