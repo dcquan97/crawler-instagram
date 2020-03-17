@@ -41,16 +41,6 @@ class User < ApplicationRecord
   	end while User.exists?(column => self[column])
   end
 
-  def process_payment
-    customer = Stripe::Customer.create email: email,
-                                       card: card_token
-
-    Stripe::Charge.create customer: customer.id,
-                          amount: course.price * 100,
-                          description: course.name,
-                          currency: 'usd'
-
-  end
 
   def remember
     generate_token(:remember_token)
@@ -58,8 +48,6 @@ class User < ApplicationRecord
   end
 
   def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
     return false if remember_token.nil?
     BCrypt::Password.new(remember_token).is_password?(remember_token)
   end
