@@ -6,6 +6,3 @@ end
 Sidekiq.configure_client do |config|
   config.redis = { url: ENV["REDISTOGO_URL"] || "redis://localhost:6379/" }
 end
-
-uri = ENV["REDISTOGO_URL"] || "redis://localhost:6379/"
-REDIS = Redis.new(:url => uri)
