@@ -11,7 +11,7 @@
       <%= f.password_field :password, autocomplete: "current-password", class: 'form-control m-2' %>
     </div>
     <div class="field">
-      <%= check_box_tag :remember_me, :true, class: 'm-2' %>
+      <%= check_box_tag :remember_me, 1, params[:remember_me], class: 'm-2' %>
       <%= f.label :remember_me %>
     </div>
 
