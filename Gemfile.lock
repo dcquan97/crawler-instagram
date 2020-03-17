@@ -334,7 +334,7 @@ DEPENDENCIES
   mini_magick
   nokogiri
   paranoia (~> 2.2)
-  pg (~> 0.18.4)
+  pg
   popper_js (~> 1.16.0)
   pry
   puma (~> 3.11)
