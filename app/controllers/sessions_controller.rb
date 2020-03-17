@@ -46,7 +46,7 @@ class SessionsController < ApplicationController
       current_user.update(password: params[:new_password])
       redirect_to dashboard_path, notice: 'Update success.'
     else
-      redirect_to profile_path
+      redirect_to profile_path, alert: 'Update error.'
     end
   end
 

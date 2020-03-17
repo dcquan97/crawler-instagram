@@ -6,13 +6,18 @@ class UsersController < ApplicationController
 
   def create
   	@user = User.new(set_user)
-  	if @user.save
-      @user.send_email_activation
-      UserMailer.confirmation_user(@user).deliver_later
-  		redirect_to root_path, notice: "Please check your email to active account!"
-  	else
-  		redirect_to new_user_path
-  	end
+    check_mail = User.find_by(email: params[:users][:email])
+    if check_mail.present?
+      redirect_to new_user_path, alert: 'Email already exist.'
+    else
+    	if @user.save!
+        @user.send_email_activation
+        UserMailer.confirmation_user(@user).deliver_later
+    		redirect_to root_path, notice: "Please check your email to active account!"
+    	else
+    		redirect_to new_user_path
+    	end
+    end
   end
   def show
   end
@@ -36,10 +41,10 @@ class UsersController < ApplicationController
     if current_user.password == params[params[:password]]
       current_user.destroy
       cookies.clear
-      redirect_to root_path
+      redirect_to root_path, notice: 'Account deleted successfully.'
       SendEmailJob.set(wait: 2.seconds).perform_later(current_user)
     else
-      redirect_to profile_path, notice: 'Password not valid.'
+      redirect_to profile_path, alert: 'Password not valid.'
     end
   end
 
