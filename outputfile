@@ -1,0 +1,1165 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE chris;
+ALTER ROLE chris WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
+CREATE ROLE dcqbean;
+ALTER ROLE dcqbean WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+
+
+
+
+
+
+--
+-- Database creation
+--
+
+CREATE DATABASE "db/insta-development" WITH TEMPLATE = template0 OWNER = dcqbean;
+CREATE DATABASE "db/insta-test" WITH TEMPLATE = template0 OWNER = dcqbean;
+CREATE DATABASE "db/insta_development" WITH TEMPLATE = template0 OWNER = dcqbean;
+CREATE DATABASE "db/insta_test" WITH TEMPLATE = template0 OWNER = dcqbean;
+CREATE DATABASE sammy WITH TEMPLATE = template0 OWNER = dcqbean;
+REVOKE ALL ON DATABASE template1 FROM PUBLIC;
+REVOKE ALL ON DATABASE template1 FROM postgres;
+GRANT ALL ON DATABASE template1 TO postgres;
+GRANT CONNECT ON DATABASE template1 TO PUBLIC;
+
+
+\connect -reuse-previous=on "dbname='db/insta-development'"
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ar_internal_metadata OWNER TO dcqbean;
+
+--
+-- Name: imgurs; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.imgurs (
+    id bigint NOT NULL,
+    type character varying,
+    file character varying,
+    thumbnail character varying,
+    deleted_at timestamp without time zone,
+    instagram_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.imgurs OWNER TO dcqbean;
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.imgurs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.imgurs_id_seq OWNER TO dcqbean;
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.imgurs_id_seq OWNED BY public.imgurs.id;
+
+
+--
+-- Name: instagrams; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.instagrams (
+    id bigint NOT NULL,
+    content character varying,
+    post_id character varying,
+    like_counter integer,
+    deleted_at timestamp without time zone,
+    time_post timestamp without time zone,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.instagrams OWNER TO dcqbean;
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.instagrams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.instagrams_id_seq OWNER TO dcqbean;
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.instagrams_id_seq OWNED BY public.instagrams.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO dcqbean;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    username character varying,
+    avatar character varying,
+    deleted_at timestamp without time zone,
+    status boolean,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    password_digest character varying DEFAULT ''::character varying NOT NULL,
+    decription character varying,
+    followers integer,
+    following integer,
+    website character varying,
+    auth_token character varying,
+    full_name character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_token character varying,
+    remember_created_at timestamp without time zone,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation boolean DEFAULT false,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    card_token character varying
+);
+
+
+ALTER TABLE public.users OWNER TO dcqbean;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO dcqbean;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs ALTER COLUMN id SET DEFAULT nextval('public.imgurs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams ALTER COLUMN id SET DEFAULT nextval('public.instagrams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2020-03-17 09:50:54.485262	2020-03-17 09:50:54.485262
+\.
+
+
+--
+-- Data for Name: imgurs; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.imgurs (id, type, file, thumbnail, deleted_at, instagram_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.imgurs_id_seq', 1, false);
+
+
+--
+-- Data for Name: instagrams; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.instagrams (id, content, post_id, like_counter, deleted_at, time_post, user_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.instagrams_id_seq', 1, false);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.schema_migrations (version) FROM stdin;
+20200225075947
+20200225080957
+20200225098260
+20200316030736
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.users (id, username, avatar, deleted_at, status, email, password_digest, decription, followers, following, website, auth_token, full_name, reset_password_token, reset_password_sent_at, remember_token, remember_created_at, confirmation_token, confirmed_at, confirmation, confirmation_sent_at, unconfirmed_email, created_at, updated_at, card_token) FROM stdin;
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+
+
+--
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: imgurs_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs
+    ADD CONSTRAINT imgurs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instagrams_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams
+    ADD CONSTRAINT instagrams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_imgurs_on_instagram_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_imgurs_on_instagram_id ON public.imgurs USING btree (instagram_id);
+
+
+--
+-- Name: index_imgurs_on_type_and_instagram_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_imgurs_on_type_and_instagram_id ON public.imgurs USING btree (type, instagram_id);
+
+
+--
+-- Name: index_instagrams_on_user_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_instagrams_on_user_id ON public.instagrams USING btree (user_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: fk_rails_0debe2af09; Type: FK CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams
+    ADD CONSTRAINT fk_rails_0debe2af09 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: fk_rails_58be215484; Type: FK CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs
+    ADD CONSTRAINT fk_rails_58be215484 FOREIGN KEY (instagram_id) REFERENCES public.instagrams(id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect -reuse-previous=on "dbname='db/insta-test'"
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect -reuse-previous=on "dbname='db/insta_development'"
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ar_internal_metadata OWNER TO dcqbean;
+
+--
+-- Name: imgurs; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.imgurs (
+    id bigint NOT NULL,
+    type character varying,
+    file character varying,
+    thumbnail character varying,
+    deleted_at timestamp without time zone,
+    instagram_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.imgurs OWNER TO dcqbean;
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.imgurs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.imgurs_id_seq OWNER TO dcqbean;
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.imgurs_id_seq OWNED BY public.imgurs.id;
+
+
+--
+-- Name: instagrams; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.instagrams (
+    id bigint NOT NULL,
+    content character varying,
+    post_id character varying,
+    like_counter integer,
+    deleted_at timestamp without time zone,
+    time_post timestamp without time zone,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.instagrams OWNER TO dcqbean;
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.instagrams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.instagrams_id_seq OWNER TO dcqbean;
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.instagrams_id_seq OWNED BY public.instagrams.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO dcqbean;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: dcqbean
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    username character varying,
+    avatar character varying,
+    deleted_at timestamp without time zone,
+    status boolean,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    password_digest character varying DEFAULT ''::character varying NOT NULL,
+    decription character varying,
+    followers integer,
+    following integer,
+    website character varying,
+    auth_token character varying,
+    full_name character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_token character varying,
+    remember_created_at timestamp without time zone,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation boolean DEFAULT false,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    card_token character varying
+);
+
+
+ALTER TABLE public.users OWNER TO dcqbean;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: dcqbean
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO dcqbean;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dcqbean
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs ALTER COLUMN id SET DEFAULT nextval('public.imgurs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams ALTER COLUMN id SET DEFAULT nextval('public.instagrams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2020-03-17 03:36:30.081113	2020-03-17 03:36:30.081113
+\.
+
+
+--
+-- Data for Name: imgurs; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.imgurs (id, type, file, thumbnail, deleted_at, instagram_id, created_at, updated_at) FROM stdin;
+1	Image	image/upload/v1584424626/file/fxzsgaykdcmk5w1bxl6k.jpg	#<File:0x00007fa981f64e10>	\N	1	2020-03-17 05:57:04.272055	2020-03-17 05:57:04.272055
+2	Image	image/upload/v1584424632/file/pwalhkz0lfreancwv21n.jpg	#<File:0x00007fa9824935d0>	\N	1	2020-03-17 05:57:06.70177	2020-03-17 05:57:06.70177
+3	Image	image/upload/v1584424635/file/kz1gtt60cmlbzndbanwj.jpg	#<File:0x00007fa9885b53b8>	\N	1	2020-03-17 05:57:13.306446	2020-03-17 05:57:13.306446
+4	Image	image/upload/v1584424637/file/l6cgu28cz9st0ojxvosc.jpg	#<File:0x00007fa9884ffdb0>	\N	1	2020-03-17 05:57:15.681082	2020-03-17 05:57:15.681082
+5	Image	image/upload/v1584424640/file/qj37jjjgsgmunfeye2of.jpg	#<File:0x00007fa988400388>	\N	2	2020-03-17 05:57:17.946337	2020-03-17 05:57:17.946337
+6	Image	image/upload/v1584424644/file/aivxyiqractrllaabv0x.jpg	#<File:0x000055ea13f550c0>	\N	2	2020-03-17 05:57:21.438823	2020-03-17 05:57:21.438823
+7	Image	image/upload/v1584424647/file/wmxcbymye4arpjt1exon.jpg	#<File:0x000055ea1610b638>	\N	2	2020-03-17 05:57:25.362661	2020-03-17 05:57:25.362661
+8	Image	image/upload/v1584424649/file/jpb7ctirpb69jr8rocsp.jpg	#<File:0x000055ea168b02f8>	\N	2	2020-03-17 05:57:27.713293	2020-03-17 05:57:27.713293
+9	Image	image/upload/v1584424652/file/frmxppyx7kjpa9pczoiw.jpg	#<File:0x000055ea16b5c6c8>	\N	2	2020-03-17 05:57:30.236641	2020-03-17 05:57:30.236641
+10	Image	image/upload/v1584424654/file/hv7lmf8bipafjqvvgswt.jpg	#<File:0x000055ea17a11538>	\N	3	2020-03-17 05:57:32.750598	2020-03-17 05:57:32.750598
+11	Image	image/upload/v1584424657/file/cbceffftgnblrushhm2e.jpg	#<File:0x00007fa96804eea8>	\N	3	2020-03-17 05:57:35.674147	2020-03-17 05:57:35.674147
+12	Image	image/upload/v1584424660/file/dykcwjoidr1hsyco0rdr.jpg	#<File:0x00007fa982a5c868>	\N	4	2020-03-17 05:57:38.244329	2020-03-17 05:57:38.244329
+13	Image	image/upload/v1584424667/file/bu4gpxn7k84qkcjejwv7.jpg	#<File:0x00007fa9834dace0>	\N	4	2020-03-17 05:57:40.952703	2020-03-17 05:57:40.952703
+14	Image	image/upload/v1584424670/file/dq7oqtqkvnuidevw5hq7.jpg	#<File:0x00007fa982631db0>	\N	5	2020-03-17 05:57:48.842862	2020-03-17 05:57:48.842862
+15	Image	image/upload/v1584424673/file/nx0flplke5wvgupmrxzl.jpg	#<File:0x00007fa982535ad8>	\N	5	2020-03-17 05:57:51.288501	2020-03-17 05:57:51.288501
+16	Image	image/upload/v1584424710/file/qssvryooeuyqpp7myq2b.jpg	#<File:0x00007fa982337bf0>	\N	5	2020-03-17 05:57:54.072072	2020-03-17 05:57:54.072072
+17	Image	image/upload/v1584424737/file/nnaqh2swoadsxdglgwrr.jpg	#<File:0x00007fa98191aff0>	\N	5	2020-03-17 05:58:30.707237	2020-03-17 05:58:30.707237
+18	Image	image/upload/v1584424747/file/esljz2ydofgijsypodmx.jpg	#<File:0x00007fa980ba6270>	\N	6	2020-03-17 05:58:58.626157	2020-03-17 05:58:58.626157
+19	Image	image/upload/v1584424754/file/vc8dpobrlaoun0yc5lcn.jpg	#<File:0x00007fa994647cc0>	\N	6	2020-03-17 05:59:07.942235	2020-03-17 05:59:07.942235
+20	Image	image/upload/v1584424770/file/ptoitmpacfbrryemwfpk.jpg	#<File:0x00007fa9942591b8>	\N	7	2020-03-17 05:59:15.328896	2020-03-17 05:59:15.328896
+21	Image	image/upload/v1584424773/file/lztgzzs7ise7cswdnrhy.jpg	#<File:0x00007fa9885e1878>	\N	8	2020-03-17 05:59:31.043601	2020-03-17 05:59:31.043601
+22	Image	image/upload/v1584424776/file/cqyheok5c3dis9mdoam0.jpg	#<File:0x00007fa9883c9680>	\N	8	2020-03-17 05:59:34.798795	2020-03-17 05:59:34.798795
+23	Image	image/upload/v1584424779/file/vunkvsf49na4uegdms5o.jpg	#<File:0x00007fa9881b21d0>	\N	8	2020-03-17 05:59:37.329062	2020-03-17 05:59:37.329062
+24	Image	image/upload/v1584424782/file/vjprjahki3wsxgzc15wh.jpg	#<File:0x00007fa980732f68>	\N	9	2020-03-17 05:59:40.462203	2020-03-17 05:59:40.462203
+25	Image	image/upload/v1584424785/file/ihzgg2ezhkh6zvudilgk.jpg	#<File:0x00007fa98029d520>	\N	9	2020-03-17 05:59:42.962985	2020-03-17 05:59:42.962985
+26	Image	image/upload/v1584424788/file/z7zpr9eu560l9cutj4qv.jpg	#<File:0x00007fa97886e560>	\N	9	2020-03-17 05:59:45.912109	2020-03-17 05:59:45.912109
+27	Image	image/upload/v1584424790/file/yqmqjobgm3qnlh211ijc.jpg	#<File:0x00007fa97876a290>	\N	10	2020-03-17 05:59:49.084318	2020-03-17 05:59:49.084318
+28	Image	image/upload/v1584424793/file/wke4dmmsvlo8so5rzwdc.jpg	#<File:0x00007fa97864fb58>	\N	10	2020-03-17 05:59:52.066411	2020-03-17 05:59:52.066411
+29	Image	image/upload/v1584424796/file/bmidmwyjd4z8pws6bja8.jpg	#<File:0x00007fa978598138>	\N	10	2020-03-17 05:59:54.623218	2020-03-17 05:59:54.623218
+30	Image	image/upload/v1584424799/file/ge86mobzo2t3oofddh3s.jpg	#<File:0x00007fa9784cc5b0>	\N	11	2020-03-17 05:59:57.26549	2020-03-17 05:59:57.26549
+31	Image	image/upload/v1584424801/file/nqehxjlj8pytbdv6cjgx.jpg	#<File:0x000055ea182149d8>	\N	11	2020-03-17 05:59:59.976049	2020-03-17 05:59:59.976049
+32	Image	image/upload/v1584424806/file/bspv4sccm09ukbnzeggc.jpg	#<File:0x000055ea17f95a40>	\N	11	2020-03-17 06:00:03.326332	2020-03-17 06:00:03.326332
+33	Image	image/upload/v1584424808/file/hqixobbr6861ya1e9epv.jpg	#<File:0x000055ea17d69320>	\N	11	2020-03-17 06:00:06.901714	2020-03-17 06:00:06.901714
+34	Image	image/upload/v1584424812/file/d2kgfbhlkbwofshv9mrb.jpg	#<File:0x000055ea17b7e8f8>	\N	11	2020-03-17 06:00:09.837588	2020-03-17 06:00:09.837588
+35	Image	image/upload/v1584424814/file/v56siv7beqmtyguohpso.jpg	#<File:0x000055ea16e0c530>	\N	12	2020-03-17 06:00:13.100332	2020-03-17 06:00:13.100332
+36	Image	image/upload/v1584424817/file/m6btj953f08cfpve5fvx.jpg	#<File:0x000055ea16a40258>	\N	12	2020-03-17 06:00:15.394303	2020-03-17 06:00:15.394303
+37	Image	image/upload/v1584432197/file/rbl9mps0o1fhkwcbtmf4.jpg	#<File:0x00007fa981baca20>	\N	13	2020-03-17 08:03:15.328477	2020-03-17 08:03:15.328477
+38	Image	image/upload/v1584432200/file/htdxibk6km36yjedx47o.jpg	#<File:0x00007fa9a0146e40>	\N	14	2020-03-17 08:03:18.023353	2020-03-17 08:03:18.023353
+39	Image	image/upload/v1584432203/file/gokhnnq5w0qj7yhtdfbr.jpg	#<File:0x00007fa980bdc0c8>	\N	14	2020-03-17 08:03:22.168378	2020-03-17 08:03:22.168378
+40	Image	image/upload/v1584432206/file/bvjgubdpeaof2vkupefr.jpg	#<File:0x000055ea166255b0>	\N	15	2020-03-17 08:03:24.609151	2020-03-17 08:03:24.609151
+41	Image	image/upload/v1584432209/file/mhjqui3stnlt8hllbimu.jpg	#<File:0x000055ea16a5d470>	\N	15	2020-03-17 08:03:27.072232	2020-03-17 08:03:27.072232
+42	Image	image/upload/v1584432211/file/n0kktrfxwaihwj1ystvw.jpg	#<File:0x000055ea17a32af8>	\N	15	2020-03-17 08:03:29.699206	2020-03-17 08:03:29.699206
+43	Image	image/upload/v1584432214/file/hztmlwhehcyltn0p2yfe.jpg	#<File:0x000055ea17c2ab30>	\N	16	2020-03-17 08:03:32.4883	2020-03-17 08:03:32.4883
+44	Image	image/upload/v1584432217/file/xwpdffoy0dgjqpuzuweq.jpg	#<File:0x000055ea17e54c80>	\N	16	2020-03-17 08:03:35.315972	2020-03-17 08:03:35.315972
+45	Image	image/upload/v1584432219/file/pjiykfdlkj9w8f4cjr1b.jpg	#<File:0x000055ea1805cc58>	\N	16	2020-03-17 08:03:38.010606	2020-03-17 08:03:38.010606
+46	Image	image/upload/v1584432222/file/j18g7js5fdih74kqz3wa.jpg	#<File:0x000055ea18324c38>	\N	16	2020-03-17 08:03:40.346852	2020-03-17 08:03:40.346852
+47	Image	image/upload/v1584432225/file/ssgbeysz21daiibvswqv.jpg	#<File:0x00007fa9a00a4cf8>	\N	17	2020-03-17 08:03:43.525091	2020-03-17 08:03:43.525091
+48	Image	image/upload/v1584432228/file/vk6kkcouc29umdl101dn.jpg	#<File:0x00007fa9837e4170>	\N	18	2020-03-17 08:03:46.250042	2020-03-17 08:03:46.250042
+49	Image	image/upload/v1584432231/file/y1xv2oty7ysp5vfr9jbj.jpg	#<File:0x00007fa97402ed68>	\N	19	2020-03-17 08:03:49.257606	2020-03-17 08:03:49.257606
+50	Image	image/upload/v1584432234/file/fwqy1mnflu8f3lvfjdft.jpg	#<File:0x00007fa982b614c0>	\N	20	2020-03-17 08:03:52.104452	2020-03-17 08:03:52.104452
+51	Image	image/upload/v1584432237/file/p4ajmedbtaeobjxruiqi.jpg	#<File:0x00007fa9827b70b8>	\N	21	2020-03-17 08:03:55.440873	2020-03-17 08:03:55.440873
+52	Image	image/upload/v1584432239/file/pdq7geoulto1rgvmfllc.jpg	#<File:0x00007fa97c0b1b48>	\N	22	2020-03-17 08:03:57.838202	2020-03-17 08:03:57.838202
+53	Video	video/upload/v1584432251/file/qu4yuwmrcfmdhl0fedal.mp4	https://instagram.fsgn2-2.fna.fbcdn.net/v/t51.2885-15/e35/83717784_205895857256080_6943793940575196052_n.jpg?_nc_ht=instagram.fsgn2-2.fna.fbcdn.net&_nc_cat=104&_nc_ohc=4T3NYePKklAAX9xKCA_&oh=0797d111bfb7c2a5942676c0029010ed&oe=5E72D72B	\N	23	2020-03-17 08:04:01.909742	2020-03-17 08:04:01.909742
+54	Image	image/upload/v1584432254/file/y3ttstiqbvdf3peajjfd.jpg	#<File:0x00007fa980bdeaa8>	\N	24	2020-03-17 08:04:12.821901	2020-03-17 08:04:12.821901
+\.
+
+
+--
+-- Name: imgurs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.imgurs_id_seq', 54, true);
+
+
+--
+-- Data for Name: instagrams; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.instagrams (id, content, post_id, like_counter, deleted_at, time_post, user_id, created_at, updated_at) FROM stdin;
+24	#Tết	2232059823355169676	3590	\N	2020-01-29 12:51:00	2	2020-03-17 08:04:12.701305	2020-03-17 08:04:12.701305
+4	😴	2264004314387408740	39576	\N	2020-03-13 14:39:00	1	2020-03-17 05:57:38.149861	2020-03-17 07:27:29.137567
+5	今日もがんばろうね🥰	2263684624041507796	39582	\N	2020-03-13 04:04:00	1	2020-03-17 05:57:48.705488	2020-03-17 07:27:29.143319
+7	🍰\n@saitomakiko628 \n#写メ撮ってくれたの\n#優しいね	2262199600821825530	45833	\N	2020-03-11 02:53:00	1	2020-03-17 05:59:15.220249	2020-03-17 07:27:29.15054
+8	💄❤︎	2260942496517557765	38107	\N	2020-03-09 09:16:00	1	2020-03-17 05:59:30.934166	2020-03-17 06:42:53.406093
+9	昼間はあったかくて\n過ごしやすい😽❤︎\nカーディガン可愛くてお気に入り🧏🏻‍♀️\n#ゆあ服	2260876904422726210	44785	\N	2020-03-09 07:05:00	1	2020-03-17 05:59:40.220913	2020-03-17 06:42:53.410715
+10	自然だーーー🌳❤︎	2258733746368918647	49733	\N	2020-03-06 08:07:00	1	2020-03-17 05:59:48.963461	2020-03-17 06:42:53.415475
+11	ただいま🇯🇵﻿\n﻿\n福岡⇨名古屋⇨北海道⇨﻿\nフィリピン⇨マレーシア﻿\n﻿\nとお家にしばらく帰ってなかったけど﻿\nやっぱりおうちはほっとするね…🥺💓﻿\n﻿\nでも色々な場所で様々なお仕事をさせて頂いて﻿\nありがたきことです！！ね！﻿\n﻿\nあったかいとこから寒いとこ﻿\nなんか楽しかったなぁ✨﻿\n﻿\n私は元気元気なので心配しないでね🐒﻿\n﻿\nみんなも風邪とかウィルスとかに気をつけながら﻿\n毎日元気に生きようね！！☺️	2257503476751994925	83106	\N	2020-03-04 15:23:00	1	2020-03-17 05:59:57.12959	2020-03-17 06:42:53.419521
+12	マレーシアでの撮影\n楽しかったです！！\n情報公開お楽しみに💞\n#時差は1時間\n#日本の方が1時間早いよ	2256880622499067764	59843	\N	2020-03-03 18:45:00	1	2020-03-17 06:00:12.961485	2020-03-17 06:42:53.424076
+6	こないだ﻿\n@tcbshibuya で﻿\n@tcbtomita 先生に施術してもらいました🥰﻿\n﻿\n今回もとっても丁寧に施術してくださり﻿\n安心して受けれたよ~😽❤︎﻿\n﻿\nありがとうございました✨	2262213785077006577	48457	\N	2020-03-11 03:21:00	1	2020-03-17 05:58:58.486497	2020-03-17 07:30:32.675063
+1	こないだ初めてみなるんと☺️﻿\n﻿\n楽しくてあっという間だった❤︎﻿\nかおたんも急だったのに来てくれたんだ✌🏻﻿\n﻿\nイベントが中止になったり﻿\n悲しいニュースもたくさんあるけど、﻿\n会いたい人に会えたり、﻿\nその中でも楽しいことを見つけて﻿\n明るく生きてる🥰	2265829838067607753	40109	\N	2020-03-16 03:06:00	1	2020-03-17 05:57:04.101753	2020-03-17 07:30:57.640774
+2	しゅき	2265386889349639968	43425	\N	2020-03-15 12:26:00	1	2020-03-17 05:57:17.838561	2020-03-17 07:30:57.646099
+3	とってもとっても楽しかった🥳❤︎\nまたすぐ遊ぶんだ💞	2265177390969875072	34302	\N	2020-03-15 05:30:00	1	2020-03-17 05:57:32.659369	2020-03-17 07:30:57.650271
+13	Sài Gòn, see you next time 😘	2260010889891630477	4202	\N	2020-03-08 02:25:00	2	2020-03-17 08:03:15.163819	2020-03-17 08:03:15.163819
+14	🍷💕	2258110492834809067	1884	\N	2020-03-05 11:29:00	2	2020-03-17 08:03:17.850013	2020-03-17 08:03:17.850013
+15	I’m obsessed with this necklace from @echeveriastudio.co 😍 Little jewelry spices up my whole outfit ✨  Use code “HAUYEN” to get 20% off your entire order at echeveriastudio.com #echeveriatreasure 💖	2257408831032212875	3106	\N	2020-03-04 12:15:00	2	2020-03-17 08:03:24.506051	2020-03-17 08:03:24.506051
+16	Chill night in #saigon 🥂💖	2256813661685350726	3454	\N	2020-03-03 16:32:00	2	2020-03-17 08:03:32.373599	2020-03-17 08:03:32.373599
+17	23 🎂	2254687418974333118	2935	\N	2020-02-29 18:08:00	2	2020-03-17 08:03:43.409056	2020-03-17 08:03:43.409056
+18	Mọi người đã xem vlog mới chưa? 🙋🏻‍♀️ Link trên bio hoặc kéo story mới nhất để xem nha 💖💖💖 #fitness #vlog #fullbodyworkout	2254517936519746377	3009	\N	2020-02-29 12:31:00	2	2020-03-17 08:03:46.053751	2020-03-17 08:03:46.053751
+19	Bad news: I suppose to be on ✈️ rn but my flight was cancelled a few days before boarding...\nGood news: Saigon is my home for a little longer 🥰 start to unpack! 👏	2242243757070345345	1882	\N	2020-02-12 14:05:00	2	2020-03-17 08:03:49.13974	2020-03-17 08:03:49.13974
+20	More healthy treats please 🤤	2241154058444451442	2189	\N	2020-02-11 02:00:00	2	2020-03-17 08:03:51.988285	2020-03-17 08:03:51.988285
+21	Từ người chị chụp hình có tâm @moonious 💖	2240816606278104405	2371	\N	2020-02-10 14:49:00	2	2020-03-17 08:03:55.337884	2020-03-17 08:03:55.337884
+22	2017 ✨	2238003654206757438	2792	\N	2020-02-06 17:40:00	2	2020-03-17 08:03:57.747134	2020-03-17 08:03:57.747134
+23	New vlog is coming 🥰	2237263196115213289	3160	\N	2020-02-05 17:10:00	2	2020-03-17 08:03:59.880497	2020-03-17 08:03:59.880497
+\.
+
+
+--
+-- Name: instagrams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.instagrams_id_seq', 24, true);
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.schema_migrations (version) FROM stdin;
+20200225075947
+20200225080957
+20200225098260
+20200316030736
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: dcqbean
+--
+
+COPY public.users (id, username, avatar, deleted_at, status, email, password_digest, decription, followers, following, website, auth_token, full_name, reset_password_token, reset_password_sent_at, remember_token, remember_created_at, confirmation_token, confirmed_at, confirmation, confirmation_sent_at, unconfirmed_email, created_at, updated_at, card_token) FROM stdin;
+1	yua_mikami	image/upload/v1584430259/image/p8ghm0ixf5vnipivqxzm.jpg	\N	t	dcqbean@gmail.com	$2a$12$ob5WWgxfFjWmgRF7UU7Qqe.2EEyPfXGO7JEwAFltfMKcAWOhLe7U2	アパレルブランド【YOUR’S】\n@yours_yuamikami 🐰💘\nYouTube公式❤︎ゆあちゃんねる\nチャンネル登録お願いします🥺🙏\nメールアドレスは\n事務所の連絡先になってます。\nお仕事依頼のメールのみでお願いします🙇‍♂️	2032300	264	https://twitter.com/yua_mikami	b04IFObv3BLelNkGgkmcPA	三上悠亜	\N	\N	\N	\N	Z57bKN1fbayAaZiQkxH2nA	2020-03-17 05:55:52.984652	t	2020-03-17 05:55:30.805204	\N	2020-03-17 05:55:30.797572	2020-03-17 07:30:57.774186	cus_GvPEAQiYsgPwjt
+2	hauyenn	image/upload/v1584432256/image/ibjwqtpw8saacj5cpvcs.jpg	\N	t	dcq332@gmail.com	$2a$12$yGXL7FvwV7QQkYaxWN45VOUqLHhJIopMKNF7uvn7w9EtEokgNNjdq	23 ⋆ Dallas, TX\nfor business | hauyennn@gmail.com\n⌲ New YouTube video ↴ 120k+ subs	65162	777	https://youtu.be/v59JIluyBM0	E5NHNEUTteB4uKFk5Osjqg	Hạ Uyên | Cali	\N	\N	\N	\N	58T_B2ANSuv9LrPM_7F8Iw	2020-03-17 07:47:22.675105	t	2020-03-17 07:46:55.75566	\N	2020-03-17 07:46:55.744513	2020-03-17 08:04:15.504183	cus_GvRDu5WBHcM2u5
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dcqbean
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+
+
+--
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: imgurs_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs
+    ADD CONSTRAINT imgurs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instagrams_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams
+    ADD CONSTRAINT instagrams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_imgurs_on_instagram_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_imgurs_on_instagram_id ON public.imgurs USING btree (instagram_id);
+
+
+--
+-- Name: index_imgurs_on_type_and_instagram_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_imgurs_on_type_and_instagram_id ON public.imgurs USING btree (type, instagram_id);
+
+
+--
+-- Name: index_instagrams_on_user_id; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE INDEX index_instagrams_on_user_id ON public.instagrams USING btree (user_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: dcqbean
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: fk_rails_0debe2af09; Type: FK CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.instagrams
+    ADD CONSTRAINT fk_rails_0debe2af09 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: fk_rails_58be215484; Type: FK CONSTRAINT; Schema: public; Owner: dcqbean
+--
+
+ALTER TABLE ONLY public.imgurs
+    ADD CONSTRAINT fk_rails_58be215484 FOREIGN KEY (instagram_id) REFERENCES public.instagrams(id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect -reuse-previous=on "dbname='db/insta_test'"
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect postgres
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect sammy
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect template1
+
+SET default_transaction_read_only = off;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 9.5.21
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE template1; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE template1 IS 'default template for new databases';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database cluster dump complete
+--
+
