@@ -3,6 +3,6 @@ class BillingJob < ApplicationJob
 
   def perform(user)
     @user = user
-    UserMailer.create_billing_email(@user.email).deliver_later
+    UserMailer.create_billing_email(@user).deliver_later
   end
 end
