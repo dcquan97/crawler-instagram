@@ -11,14 +11,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: params[:user][:email])
     if @user && @user.authenticate(params[:user][:password]) && @user.confirmation == true
-      if params[:remember_me] == 'true'
-        cookies[:auth_token] = {
-          value: @user.auth_token,
-          expires: 1.hours.from_now.utc
-        }
-      else
-        session[:user_id] = @user.id
-      end
+      params[:remember_me] == '1' ? remember(@user) : forget(@user)
       redirect_to dashboard_path, notice: 'Success login!'
     else
       redirect_to login_path, alert: 'Not found account'
@@ -30,17 +23,8 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:avatar].present?
-      current_user.update(avatar: params[:avatar])
-      redirect_to dashboard_path, notice: 'Update success.'
-    elsif params[:full_name].blank?
-      current_user.update(full_name: params[:full_name])
-      redirect_to dashboard_path, notice: 'Update success.'
-    elsif params[:website].size > 1
-      current_user.update(website: params[:website])
-      redirect_to dashboard_path, notice: 'Update success.'
-    elsif params[:decription].size > 1
-      current_user.update(decription: params[:decription])
+    if current_user.present?
+      current_user.update_attributes!(user_params)
       redirect_to dashboard_path, notice: 'Update success.'
     elsif current_user&.authenticate(params[:current_password]) && params[:new_password] == params[:password_confirmation]
       current_user.update(password: params[:new_password])
@@ -71,7 +55,12 @@ class SessionsController < ApplicationController
   end
 
   private
+
   def stripe_params
     params.permit :stripeEmail, :stripeToken
+  end
+
+  def user_params
+    params.permit(:full_name, :website, :decription, :avatar)
   end
 end

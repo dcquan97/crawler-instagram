@@ -11,7 +11,13 @@ class BillingController < ApplicationController
   def create_card
     respond_to do |format|
       if current_user.card_token.nil?
-        customer = Stripe::Customer.create(email: current_user.email)
+        customer = Stripe::Customer.create(email: current_user.email, card: params[:stripeToken])
+        Stripe::Charge.create({
+          customer: customer.id,
+          amount: 10000,
+          description: 'Payment crawler',
+          currency: 'usd'
+        })
         current_user.update(card_token: customer.id)
         BillingJob.set(wait: 4.seconds).perform_later(current_user)
       end

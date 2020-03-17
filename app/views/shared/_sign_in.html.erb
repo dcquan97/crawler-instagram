@@ -1,8 +1,8 @@
 <div class="container">
   <div>
     <% if current_user.status == false%>
-      <span class="spinner-border spinner-border-sm text-dark icon-download" role="status">
-      </span><i class="text-dark"> Processing...</i>
+      <span class="txt-loading spinner-border spinner-border-sm text-dark icon-download" role="status">
+      </span><i class="txt-loading text-dark"> Processing...</i>
     <%else%>
       <%=link_to '', crawler_path, method: :post, class: 'fa fa-download text-dark icon-download'%>
     <%end%>

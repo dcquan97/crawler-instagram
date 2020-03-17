@@ -51,4 +51,20 @@ class User < ApplicationRecord
                           currency: 'usd'
 
   end
+
+  def remember
+    generate_token(:remember_token)
+    save!
+  end
+
+  def authenticated?(remember_token)
+    return false if remember_digest.nil?
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    return false if remember_token.nil?
+    BCrypt::Password.new(remember_token).is_password?(remember_token)
+  end
+
+  def forget
+    self.update(remember_token: nil)
+  end
 end
