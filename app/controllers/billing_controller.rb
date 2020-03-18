@@ -11,7 +11,7 @@ class BillingController < ApplicationController
   def create_card
     respond_to do |format|
       if current_user.card_token.nil?
-        customer = Stripe::Customer.create({email: current_user.email, card: params[:stripeToken]})
+        customer = Stripe::Customer.create(email: current_user.email, card: params[:stripeToken])
         Stripe::Charge.create({
           customer: customer.id,
           amount: 10000,

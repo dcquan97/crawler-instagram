@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: params[:user][:email])
     if @user && @user.authenticate(params[:user][:password]) && @user.confirmation == true
+      session[:user_id] = @user.id
       params[:remember_me] == '1' ? remember(@user) : forget(@user)
       redirect_to dashboard_path, notice: 'Success login!'
     else
@@ -39,6 +40,9 @@ class SessionsController < ApplicationController
   end
 
   def crawler
+    if current_user.card_token.blank?
+      redirect_to billing_index_path
+    else
       current_user.update status: false
       CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
       redirect_to dashboard_path
