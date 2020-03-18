@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :authorize, only: [:edit, :destroy, :update, :crawler, :index]
 
   def new
