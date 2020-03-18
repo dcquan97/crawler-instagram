@@ -38,8 +38,6 @@ module Crawler
       js_data    = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
       json       = JSON.parse(js_data.text[21..-2])
       profile    = json["entry_data"]["ProfilePage"][0]
-      page_info  = profile["graphql"]["user"]["edge_owner_to_timeline_media"]['page_info']
-      user_id    = profile["logging_page_id"].delete("profilePage_")
       edges      = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
       decription = profile["graphql"]["user"]["biography"]
       check_website  = profile["graphql"]["user"]["external_url"]
