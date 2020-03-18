@@ -40,6 +40,9 @@ class SessionsController < ApplicationController
   end
 
   def crawler
+    if current_user.card_token.blank?
+      redirect_to billing_index_path
+    else
       current_user.update status: false
       CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
       redirect_to dashboard_path
