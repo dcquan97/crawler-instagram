@@ -31,29 +31,29 @@ class CrawlerJob < ActiveJob::Base
         if image.class == String
           download     = open(image)
           number       = rand(100)
-          IO.copy_stream(download,"tmp/images/#{instagram_id}#{number}.png")
-          url_img = open("tmp/images/#{instagram_id}#{number}.png")
+          IO.copy_stream(download,"~/tmp/images/#{instagram_id}#{number}.png")
+          url_img = open("~/tmp/images/#{instagram_id}#{number}.png")
           Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
         elsif image != []
           image.each do |image_url|
             number       = rand(100)
             download = open(image_url)
-            IO.copy_stream(download,"tmp/images/#{instagram_id}#{number}.png")
-            url_img = open("tmp/images/#{instagram_id}#{number}.png")
+            IO.copy_stream(download,"~/tmp/images/#{instagram_id}#{number}.png")
+            url_img = open("~/tmp/images/#{instagram_id}#{number}.png")
             Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
           end
         elsif video.class == String
             number       = rand(100)
             download = open(video)
-            IO.copy_stream(download,"tmp/videos/#{instagram_id}#{number}.mp4")
-            url_video = open("tmp/videos/#{instagram_id}#{number}.mp4")
+            IO.copy_stream(download,"~/tmp/videos/#{instagram_id}#{number}.mp4")
+            url_video = open("~/tmp/videos/#{instagram_id}#{number}.mp4")
             Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: thumbnail)
         else
           video.each do |video_url|
             number       = rand(100)
             download = open(video_url)
-            IO.copy_stream(download,"tmp/videos/#{instagram_id}#{number}.mp4")
-            url_video = open("tmp/videos/#{instagram_id}#{number}.mp4")
+            IO.copy_stream(download,"~/tmp/videos/#{instagram_id}#{number}.mp4")
+            url_video = open("~/tmp/videos/#{instagram_id}#{number}.mp4")
             Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: thumbnail)
           end
         end
@@ -62,8 +62,8 @@ class CrawlerJob < ActiveJob::Base
 
       crawl.data_user.each do |users|
         download     = open(users.avatar)
-        IO.copy_stream(download,"tmp/avt/avatar.png")
-        url_avt = File.open("tmp/avt/avatar.png")
+        IO.copy_stream(download,"~/tmp/avt/avatar.png")
+        url_avt = File.open("~/tmp/avt/avatar.png")
         current_user.update(decription: users.decription, website: users.website, full_name: users.full_name, following: users.following, followers: users.followers)
         current_user.status = true
         current_user.avatar = url_avt

@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    cookies.delete(:auth_token)
+    log_out
     redirect_to root_path
   end
 
