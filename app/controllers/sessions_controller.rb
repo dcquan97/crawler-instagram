@@ -12,10 +12,7 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: params[:user][:email])
     if @user && @user.authenticate(params[:user][:password]) && @user.confirmation == true
       if value[:remember_me] == 'true'
-        cookies[:auth_token] = {
-          value: @user.auth_token,
-          expires: 1.hours.from_now.utc
-        }
+        remember(@user)
       else
         session[:user_id] = @user.id
       end
@@ -47,9 +44,6 @@ class SessionsController < ApplicationController
   end
 
   def crawler
-    if current_user.card_token.blank?
-      redirect_to billing_index_path
-    else
       current_user.update status: false
       CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
       redirect_to dashboard_path
