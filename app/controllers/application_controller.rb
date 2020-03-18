@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user,:remember, :forget, :log_out
   def current_user
-    if cookies[:auth_token]
-      @current_user ||= User.find_by!(auth_token: cookies[:auth_token])
+    if cookies[:remember_token]
+      @current_user ||= User.find_by(remember_token: cookies[:remember_token])
     else
       @current_user ||= User.find_by!(id: session[:user_id])
     end
