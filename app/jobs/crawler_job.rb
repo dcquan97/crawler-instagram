@@ -36,9 +36,9 @@ class CrawlerJob < ActiveJob::Base
         video        = n.video
         thumbnail    = n.thumbnail
         time_post    = n.time_post
-        Dir.mkdir("uploads/images")
-        Dir.mkdir("uploads/videos")
-        Dir.mkdir("uploads/avts")
+        Dir.mkdir("images")
+        Dir.mkdir("videos")
+        Dir.mkdir("avt")
         if image.class == String
           download     = open(image)
           number       = rand(100) + "#{Time.now}"
