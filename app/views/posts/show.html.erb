@@ -45,8 +45,8 @@
           </div>
         </div>
       </div>
-      <div class="post-details">
-        <%= simple_format @instagram.content%>
+      <div class="post-details col-12">
+        <%= simple_format @instagram.content, class: 'col-12'%>
         <p><strong><%= number_to_human(@instagram.like_counter, units: { thousand: 'k', million: 'm'})%></strong> likes</p>
         <p class="text-muted"><%= time_ago_in_words @instagram.time_post%> ago</p>
       </div>

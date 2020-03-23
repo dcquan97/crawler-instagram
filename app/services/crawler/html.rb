@@ -1,46 +1,25 @@
 module Crawler
-  class ProfileInstagram
-    attr :image, :content, :like_count, :video , :post_id, :time_post, :thumbnail
-    def initialize(image:, video:, content:, like_count:, post_id:, time_post:, thumbnail:)
-      @image      = image
-      @video      = video
-      @thumbnail  = thumbnail
-      @content    = content
-      @like_count = like_count
-      @post_id    = post_id
-      @time_post  = time_post
-    end
-  end
-
-  class ProfileUser
-    attr :avatar, :decription, :followers, :following, :website, :full_name
-
-    def initialize(avatar:, decription:, followers:, following:, website:, full_name:)
-      @avatar     = avatar
-      @decription = decription
-      @followers  = followers
-      @following  = following
-      @website    = website
-      @full_name  = full_name
-    end
-  end
-
   class Html
-    attr_reader :html, :data , :data_user
+
+    attr_reader :html, :data , :data_user, :next_page
+
     def initialize(url)
       @html      = HTTParty.get(url)
       @data      = []
       @data_user = []
+      @next_page = []
     end
 
     def parsing
-      doc        = Nokogiri::HTML(html)
-      js_data    = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
-      json       = JSON.parse(js_data.text[21..-2])
-      profile    = json["entry_data"]["ProfilePage"][0]
-      edges      = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
-      decription = profile["graphql"]["user"]["biography"]
-      check_website  = profile["graphql"]["user"]["external_url"]
+      doc           = Nokogiri::HTML(html)
+      js_data       = doc.at_xpath("//script[contains(text(),'window._sharedData')]")
+      json          = JSON.parse(js_data.text[21..-2])
+      profile       = json["entry_data"]["ProfilePage"][0]
+      page_info     = profile["graphql"]["user"]["edge_owner_to_timeline_media"]['page_info']
+      user_id       = profile["logging_page_id"].delete("profilePage_")
+      edges         = profile["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
+      decription    = profile["graphql"]["user"]["biography"]
+      check_website = profile["graphql"]["user"]["external_url"]
       if check_website.nil?
         website = ""
       else
@@ -58,7 +37,11 @@ module Crawler
       followers  = profile["graphql"]["user"]["edge_followed_by"]["count"]
       avatar     = profile["graphql"]["user"]["profile_pic_url_hd"]
       data_user << ProfileUser.new(avatar: avatar, website: website, full_name: full_name, followers: followers, following: following, decription: decription)
+
       loop_edges(edges)
+
+      next_page << page_info
+      next_page << user_id
     end
 
     def shortcode_media(html)
