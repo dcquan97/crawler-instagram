@@ -36,19 +36,21 @@ class CrawlerJob < ActiveJob::Base
         video        = n.video
         thumbnail    = n.thumbnail
         time_post    = n.time_post
-
+        Dir.mkdir("uploads/images")
+        Dir.mkdir("uploads/videos")
+        Dir.mkdir("uploads/avts")
         if image.class == String
           download     = open(image)
           number       = rand(100) + "#{Time.now}"
-          IO.copy_stream(download,Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
-          url_img = open(Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
+          IO.copy_stream(download,File.absolute_path("images") + "/#{instagram_id}#{number}.png")
+          url_img = open(File.absolute_path("images") + "/#{instagram_id}#{number}.png")
           Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
         elsif image != []
           image.each do |image_url|
             number       = rand(100) + "#{Time.now}"
             download = open(image_url)
-            IO.copy_stream(download,Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
-            url_img = open(Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
+            IO.copy_stream(download,File.absolute_path("images") + "/#{instagram_id}#{number}.png")
+            url_img = open(File.absolute_path("images") + "/#{instagram_id}#{number}.png")
             Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
           end
         elsif video.class == String
@@ -56,11 +58,11 @@ class CrawlerJob < ActiveJob::Base
             download_videos = open(video)
             download_thumbnail = open(thumbnail)
 
-            IO.copy_stream(download_videos,Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.mp4")
-            url_video = open(Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.mp4")
+            IO.copy_stream(download_videos,File.absolute_path("videos") +"/#{instagram_id}#{number}.mp4")
+            url_video = open(File.absolute_path("videos") +"/#{instagram_id}#{number}.mp4")
 
-            IO.copy_stream(download_thumbnail,Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.png")
-            url_thumbnail = open(Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.png")
+            IO.copy_stream(download_thumbnail,File.absolute_path("videos") +"/#{instagram_id}#{number}.png")
+            url_thumbnail = open(File.absolute_path("videos") +"/#{instagram_id}#{number}.png")
 
             Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: url_thumbnail)
         else
@@ -69,16 +71,16 @@ class CrawlerJob < ActiveJob::Base
             download_videos = open(video)
             download_thumbnail = open(thumbnail)
 
-            IO.copy_stream(download_videos,Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.mp4")
-            url_video = open(Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.mp4")
+            IO.copy_stream(download_videos,File.absolute_path("videos") +"/#{instagram_id}#{number}.mp4")
+            url_video = open(File.absolute_path("videos") +"/#{instagram_id}#{number}.mp4")
 
-            IO.copy_stream(download_thumbnail,Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.png")
-            url_thumbnail = open(Rails.root.to_s + "/public/uploads/videos/#{instagram_id}#{number}.png")
+            IO.copy_stream(download_thumbnail,File.absolute_path("videos") +"/#{instagram_id}#{number}.png")
+            url_thumbnail = open(File.absolute_path("videos") +"/#{instagram_id}#{number}.png")
 
             Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: url_thumbnail)
           end
         end
-        # crawl_next_page = Crawler::Job.new()
+
       end
 
       crawl.data_user.each do |users|
