@@ -1,19 +1,19 @@
 ---
 development:
-  cloud_name: tomosia
-  api_key: 995845143971292
-  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  cloud_name: dcqbean
+  api_key: 251127759461936
+  api_secret: CEHW5Ugu1dfevM7qxnToJV1Is-o
   enhance_image_tag: true
   static_file_support: false
 production:
   cloud_name: tomosia
-  api_key: 995845143971292
-  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  api_key: 251127759461936
+  api_secret: CEHW5Ugu1dfevM7qxnToJV1Is-o
   enhance_image_tag: true
   static_file_support: true
 test:
   cloud_name: tomosia
-  api_key: 995845143971292
-  api_secret: wW_LZhao1GM95EOQ6FNyd9GJXlQ
+  api_key: 251127759461936
+  api_secret: CEHW5Ugu1dfevM7qxnToJV1Is-o
   enhance_image_tag: true
   static_file_support: false

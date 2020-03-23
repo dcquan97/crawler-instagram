@@ -40,11 +40,9 @@ class SessionsController < ApplicationController
   end
 
   def crawler
-
       current_user.update status: false
       CrawlerJob.set(wait: 2.seconds).perform_later(current_user)
       redirect_to dashboard_path
-
   end
 
   def index

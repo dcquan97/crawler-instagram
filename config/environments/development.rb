@@ -30,7 +30,8 @@ Rails.application.configure do
 
   # Using sidekiq to create queue when send mailer
   config.active_job.queue_adapter = :sidekiq
-  config.action_mailer.default_url_options = { host: 'http://localhost', port: 3000 }
+  # config.action_mailer.default_url_options = { host: 'http://localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'https://crawler-instagram-website.herokuapp.com'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",

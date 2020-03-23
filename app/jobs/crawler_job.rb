@@ -45,14 +45,14 @@ class CrawlerJob < ActiveJob::Base
           Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
         elsif image != []
           image.each do |image_url|
-            number       = rand(100)
+            number       = rand(100) + "#{Time.now}"
             download = open(image_url)
             IO.copy_stream(download,Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
             url_img = open(Rails.root.to_s + "/public/uploads/images/#{instagram_id}#{number}.png")
             Image.create!(instagram_id: instagram_id,file: url_img,thumbnail: url_img)
           end
         elsif video.class == String
-            number       = rand(100)
+            number       = rand(100) + "#{Time.now}"
             download_videos = open(video)
             download_thumbnail = open(thumbnail)
 
@@ -65,7 +65,7 @@ class CrawlerJob < ActiveJob::Base
             Video.create!(instagram_id: instagram_id,file: url_video,thumbnail: url_thumbnail)
         else
           video.each do |video_url|
-            number       = rand(100)
+            number       = rand(100) + "#{Time.now}"
             download_videos = open(video)
             download_thumbnail = open(thumbnail)
 
