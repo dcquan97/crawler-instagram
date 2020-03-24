@@ -10,7 +10,7 @@
       <% end %>
     </div>
   <% else %>
-    <div class="insta-post post-square" style="background: url(<%= instagram.videos.first.thumbnail %>) no-repeat center top ">
+    <div class="insta-post post-square" style="background: url(<%= instagram.videos.first.file.url[0..-4] + 'jpg' %>) no-repeat center top ">
       <%= link_to post_path(instagram.id) do %>
         <div class="post-stats">
           <div class="inner">

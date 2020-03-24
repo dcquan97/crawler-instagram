@@ -39,7 +39,6 @@ module Crawler
 
         if node["is_video"]
           url           = node["video_url"]
-          thumbnail     = node["display_url"]
           check_content = node.dig("edge_media_to_caption","edges")&.first
             if check_content.nil?
               content   = ""
@@ -48,7 +47,7 @@ module Crawler
             end
           like_count    = node["edge_media_preview_like"]["count"]
           post_id       = node["id"]
-          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: thumbnail)
+          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time)
         else
           shortcode_media_url = check_post(node)
           if shortcode_media_url.is_a? Array
@@ -63,13 +62,13 @@ module Crawler
             end
             check_content = node.dig("edge_media_to_caption","edges")&.first
             if check_content.nil?
-              content = ""
+              content  = ""
             else
-              content       = check_content.dig("node","text")
+              content  = check_content.dig("node","text")
             end
             like_count = node["edge_media_preview_like"]["count"]
             post_id    = node["id"]
-            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: @img.first)
+            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time)
           else
             shortcode_media_url
             check_content = node.dig("edge_media_to_caption","edges")&.first
@@ -80,7 +79,7 @@ module Crawler
             end
             like_count    = node["edge_media_preview_like"]["count"]
             post_id       = node["id"]
-            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: shortcode_media_url)
+            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time)
           end
         end
       end

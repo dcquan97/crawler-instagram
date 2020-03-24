@@ -88,7 +88,7 @@ module Crawler
             end
           like_count      = shortcode_media["edge_media_preview_like"]["count"]
           post_id         = node["id"]
-          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: thumbnail)
+          data << ProfileInstagram.new(image: [], video: url, content: content, like_count: like_count, post_id: post_id, time_post: time)
         else
           shortcode_media_url = parsing_photo_page(HTTParty.get(page_url))
           if shortcode_media_url.is_a? Array
@@ -110,7 +110,7 @@ module Crawler
             end
             like_count = media["edge_media_preview_like"]["count"]
             post_id    = node["id"]
-            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: @img.first)
+            data << ProfileInstagram.new(image: @img, video: @video, content: content, like_count: like_count, post_id: post_id, time_post: time)
           else
             shortcode_media_url
             media         = shortcode_media(HTTParty.get(page_url))
@@ -122,7 +122,7 @@ module Crawler
             end
             like_count    = media["edge_media_preview_like"]["count"]
             post_id       = node["id"]
-            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time, thumbnail: shortcode_media_url)
+            data << ProfileInstagram.new(image: shortcode_media_url, video: [], content: content, like_count: like_count, post_id: post_id, time_post: time)
           end
         end
       end

@@ -1,8 +1,8 @@
 # Configure cloudinary
 Cloudinary.config do |config|
-	config.cloud_name = 'tomosia'
-	config.api_key = '995845143971292'
-	config.api_secret = 'wW_LZhao1GM95EOQ6FNyd9GJXlQ'
+	config.cloud_name = 'dcqbean'
+	config.api_key = '251127759461936'
+	config.api_secret = 'CEHW5Ugu1dfevM7qxnToJV1Is-o'
 	config.secure = true
 	config.cdn_subdomain = true
 	config.ignore_integrity_errors = false

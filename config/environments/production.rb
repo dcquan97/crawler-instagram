@@ -30,8 +30,8 @@ Rails.application.configure do
   config.assets.compile = false
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
   config.active_job.queue_adapter = :sidekiq
-  # config.action_mailer.default_url_options = { host: 'http://localhost', port: 3000}
-  config.action_mailer.default_url_options = { host: 'https://crawler-instagram-website.herokuapp.com'}
+  config.action_mailer.default_url_options = { host: 'http://localhost', port: 3000}
+  # config.action_mailer.default_url_options = { host: 'https://crawler-instagram-website.herokuapp.com'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
