@@ -26,7 +26,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 # Using gem "cloudinary"
 gem "cloudinary"
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 gem 'dropzonejs-rails'
 gem 'thin'
 # Using Rmagick
