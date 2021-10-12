@@ -8,7 +8,7 @@ gem 'rails', '~> 5.2.4.1'
 # postgres db support
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '~> 4.3'
 gem 'paranoia', '~> 2.2'
 gem 'pry'
 gem 'stripe'
